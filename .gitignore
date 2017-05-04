@@ -1,0 +1,3 @@
+docker-images/*.tar
+docker-images/phpmyadmin/*.tar
+.vagrant
