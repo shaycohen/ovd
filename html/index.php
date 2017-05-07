@@ -8,5 +8,8 @@ if ((include 'common.php') != TRUE ) {
 ### MAIN ###
 $result = db_query("SELECT * from reports", array());
 echoDebug("index::init", $result, 0);
+#phpinfo();
+
+
 
 ?>
