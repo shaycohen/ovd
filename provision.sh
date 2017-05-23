@@ -21,9 +21,9 @@ do
 	IMG_FN=$(echo $IMG | sed -e 's/:/IMG_FN_SEMI_COLON/')
 	echo "Verifying / Loading / Pulling image $IMG, this might take a few minutes"
 	[[ -e /vagrant/docker-images/${IMG_FN}.tar ]] && { 
-		sudo docker images | egrep -q "^$IMG" || sudo docker load -i /vagrant/docker-images/${IMG_FN}.tar || exit 1
+		sudo docker images | sed -e 's/\s\s*/:/; s/\s.*//' | egrep -q "^$IMG" || sudo docker load -i /vagrant/docker-images/${IMG_FN}.tar || exit 1
 	} || { 
-		sudo docker images | egrep -q "^$IMG" || sudo docker pull ${IMG}
+		sudo docker images | sed -e 's/\s\s*/:/; s/\s.*//' | egrep -q "^$IMG" || sudo docker pull ${IMG}
 		echo "Archiving docker image $IMG, this might take a few minutes"
 		[[ -e /vagrant/docker-images/$(dirname $IMG_FN) ]] || mkdir -p /vagrant/docker-images/$(dirname $IMG_FN)
 		TMPF=$(mktemp)
@@ -58,7 +58,7 @@ do
 	}
 done
 
-docker run --name $NAME-myadmin -d --link $NAME-db:db -p 8080:80 $MYADMIN_IMG
+docker run --name $NAME-myadmin -d --link $NAME-db:db -p 0.0.0.0:8080:80 $MYADMIN_IMG
 
 	docker run --rm --link $NAME-db:db $MYSQL_IMG \
 		sh -c 'exec echo "CREATE DATABASE '$NAME'" |  mysql -h"$DB_PORT_3306_TCP_ADDR" -P"$DB_PORT_3306_TCP_PORT" -uroot -p"$DB_ENV_MYSQL_ROOT_PASSWORD" mysql' || exit $?
@@ -75,7 +75,7 @@ docker run -d \
 	-e "DBUSER=$DBUSER" \
 	-e "DBPASS=$DBPASS" \
 	-v /vagrant/html:/var/www/html \
-	-p 80:80 -p 443:443 \
+	-p 0.0.0.0:80:80 -p 443:443 \
 	$PHP_IMG
 docker exec $NAME-httpd sh -c 'exec docker-php-ext-install pdo pdo_mysql'
 docker exec $NAME-httpd sh -c 'exec apache2ctl -k restart'

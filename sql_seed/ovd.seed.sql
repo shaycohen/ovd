@@ -45,15 +45,55 @@ INSERT INTO `container` (`id`, `description`, `warehouse_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `report`
+-- Table structure for table `manifest`
 --
 
-CREATE TABLE `report` (
+CREATE TABLE `manifest` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `container_id` int(11) NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
+(1, 1, 'manifest1_cont1');
+INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
+(2, 1, 'manifest2_cont1');
+INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
+(3, 2, 'manifest3_cont2');
+INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
+(4, 3, 'manifest4_cont3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `damage`
+--
+
+CREATE TABLE `damage` (
+  `id` int(11) NOT NULL,
+  `manifest_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(1, 1, 1, 'damage1');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(2, 1, 2, 'damage2');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(3, 1, 3, 'damage3');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(4, 1, 3, 'damage4');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(5, 2, 1, 'damage5');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(6, 2, 2, 'damage6');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(7, 2, 3, 'damage6');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(8, 3, 1, 'damage7');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
+(9, 4, 1, 'damage8');
 
 -- --------------------------------------------------------
 
@@ -107,12 +147,11 @@ ALTER TABLE `container`
   ADD KEY `warehouse_id` (`warehouse_id`);
 
 --
--- Indexes for table `report`
+-- Indexes for table `manifest`
 --
-ALTER TABLE `report`
-  ADD UNIQUE KEY `report_uniq` (`id`),
-  ADD KEY `report_container_id` (`container_id`),
-  ADD KEY `user_container_id` (`user_id`);
+ALTER TABLE `manifest`
+  ADD UNIQUE KEY `manifest_uniq` (`id`),
+  ADD KEY `manifest_container_id` (`container_id`);
 
 --
 -- Indexes for table `user`
@@ -129,6 +168,12 @@ ALTER TABLE `warehouse`
   ADD UNIQUE KEY `warehouse_uniq` (`id`);
 
 --
+-- Indexes for table `damage`
+--
+ALTER TABLE `damage`
+  ADD UNIQUE KEY `damage_uniq` (`id`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -139,11 +184,15 @@ ALTER TABLE `container`
   ADD CONSTRAINT `warehouse_id` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouse` (`id`);
 
 --
--- Constraints for table `report`
+-- Constraints for table `manifest`
 --
-ALTER TABLE `report`
-  ADD CONSTRAINT `report_container_id` FOREIGN KEY (`container_id`) REFERENCES `container` (`id`),
-  ADD CONSTRAINT `user_container_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+ALTER TABLE `manifest`
+  ADD CONSTRAINT `manifest_container_id` FOREIGN KEY (`container_id`) REFERENCES `container` (`id`);
+--
+-- Constraints for table `damage`
+--
+ALTER TABLE `damage`
+  ADD CONSTRAINT `damage_manifest_id` FOREIGN KEY (`manifest_id`) REFERENCES `manifest` (`id`);
 
 --
 -- Constraints for table `user`

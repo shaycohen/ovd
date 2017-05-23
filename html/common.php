@@ -159,4 +159,43 @@ function http_digest_parse($txt) {
   return $needed_parts ? false : $data;
 }
 
-return auth();
+function get_containers() { 
+  global $user;
+  $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($user[id]));
+  echoDebug("common::get_containers", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $fetchAll;
+}
+function get_warehouse() { 
+  global $user;
+  $result = db_query("SELECT * FROM warehouse WHERE id=?", array($user[id]));
+  echoDebug("common::get_warehouse", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $fetchAll;
+}
+function get_manifests() { 
+  global $user;
+  $result = db_query("SELECT * FROM manifest;", array());
+  echoDebug("common::get_manifests", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $fetchAll;
+}
+
+function get_damages() { 
+  global $user;
+  $result = db_query("SELECT * FROM damage;", array());
+  echoDebug("common::get_damages", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $fetchAll;
+}
+
+function get_user() { 
+  return auth();
+}
+
+$user = auth();
+global $user;
