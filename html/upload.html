@@ -9,6 +9,7 @@
   <script src="/ext/bootstrap.min.js"></script>
   <script src="main.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div ng-controller="mainCtrl">
@@ -16,11 +17,11 @@
     <form action="upload.php" method="post" enctype="multipart/form-data">
       <input type=hidden name="manifest_id" id="manifest_id" value=" {{ get_manifest_id }}">
       <input type=hidden name="type" id="type" value=" {{ get_damage_type }}">
-      <h1><span class="glyphicon glyphicon-picture"></h><input type="file" name="fileToUpload" id="fileToUpload"/></span><BR>
+      <h1><span class="glyphicon glyphicon-picture" ng-style="{'font-size': '100%'}"></span><span ng-style="{'font-size': '60%'}"><input type="file" name="fileToUpload" id="fileToUpload"></span><BR>
       <BR>
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list"></span></span>
-        <input type="text" class="form-control" placeholder="{{ui.notes}}" aria-describedby="basic-addon1" name="description" id="description">
+        <input type="text" class="form-control" placeholder="{{ui.notes}}" aria-describedby="basic-addon1" name="description" id="description" ng-style="{'width': '90%'}">
       </div>
       <BR>
       <input type="submit" value="{{ ui.submit }}" name="submit">

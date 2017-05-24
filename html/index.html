@@ -10,7 +10,7 @@
     <script src="/ext/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/login.css">
+    <link rel="stylesheet" href="/style.css">
 
   </head>
   <body>
@@ -25,5 +25,7 @@
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+  <button class="btn btn-lg btn-warning btn-block" ng-if="get_fmsg != 0">{{ get_fmsg }}</button>
+  
 </form>
 </body></html>

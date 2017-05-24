@@ -17,12 +17,19 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     }
   };
 
+  if($location.absUrl().indexOf('fmsg') > -1){    
+    $scope.get_fmsg = $scope.getUrlParam('fmsg');
+    console.log("fmsg: " + $scope.get_fmsg);
+  } else { 
+    $scope.get_fmsg = 0;
+  }
+ 
   if($location.absUrl().indexOf('manifest_id') > -1){    
-    $scope.get_manifest_id= $scope.getUrlParam('manifest_id');
+    $scope.get_manifest_id = $scope.getUrlParam('manifest_id');
     console.log("manifest_id: " + $scope.get_manifest_id);
   }
   if($location.absUrl().indexOf('type') > -1){    
-    $scope.get_damage_type= $scope.getUrlParam('damage_type');
+    $scope.get_damage_type = $scope.getUrlParam('damage_type');
     console.log("damage_type: " + $scope.get_damage_type);
   }
   $scope.oneAtATime = true;

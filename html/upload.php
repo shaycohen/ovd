@@ -13,9 +13,7 @@ $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        $uploadOk = 1;
-    } else {
+    if($check == false) {
         echoError("upload::getimagesize", "False");
         $uploadOk = 0;
     }
@@ -31,14 +29,22 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 
 if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
-    $convert_to_thumb = "convert -thumbnail 200 $target_file $target_thumb 2>&1";
-    $output = system($convert_to_thumb, $retval);
-    if ($retval > 0) { 
-      echoError("upload::create_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
-    }
-    redirect("/damage.html?manifest_id=$_POST[manifest_id]");
+  $convert_to_thumb = "convert -thumbnail 200 $target_file $target_thumb 2>&1";
+  $output = system($convert_to_thumb, $retval);
+  if ($retval > 0) { 
+    echoError("upload::create_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
+    $uploadok = 0;
+  } else { 
+    $uploadok = 1;
+  } 
 } else {
-    echoError("upload::move_uploaded_file", "Failed");
+  echoError("upload::move_uploaded_file", "Failed");
+  $uploadok = 0;
+}
+
+if ($uploadok == 1) { 
+  set_damage_enabled($damage_id);
+  redirect("/damage.html?manifest_id=$_POST[manifest_id]");
 }
 
 echoDebug("damage::post_upload", $_FILES, 5);

@@ -75,28 +75,29 @@ CREATE TABLE `damage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `manifest_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
+  `enabled` int(1), 
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(1, 1, 1, 'damage1');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(2, 1, 2, 'damage2');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(3, 1, 3, 'damage3');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(4, 1, 3, 'damage4');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(5, 2, 1, 'damage5');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(6, 2, 2, 'damage6');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(7, 2, 3, 'damage6');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(8, 3, 1, 'damage7');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
-(9, 4, 1, 'damage8');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(1, 1, 1, 1, 'damage1');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(2, 1, 2, 1, 'damage2');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(3, 1, 3, 1, 'damage3');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(4, 1, 3, 1, 'damage4');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(5, 2, 1, 1, 'damage5');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(6, 2, 2, 1, 'damage6');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(7, 2, 3, 1, 'damage6');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(8, 3, 1, 1, 'damage7');
+INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
+(9, 4, 1, 1, 'damage8');
 
 -- --------------------------------------------------------
 
@@ -116,7 +117,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `fname`, `lname`, `username`, `warehouse_id`, `pw`) VALUES
 (1, 'user', 'one', 'user1', 1, 'pass1');
-INSERT INTO `user` (`id`, `fname`, `username`, `lname`, `warehouse_id`, `pw`) VALUES
+INSERT INTO `user` (`id`, `fname`, `lname`, `username`, `warehouse_id`, `pw`) VALUES
 (2, 'user', 'two', 'user2', 2, 'pass2');
 
 -- --------------------------------------------------------

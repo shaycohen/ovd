@@ -189,9 +189,17 @@ function set_damage() {
   return $result['lastInsertId'];
 }
 
+function set_damage_enabled($damage_id) { 
+  $result = db_query("UPDATE damage set enabled=1 WHERE id=?", array($damage_id));
+  echoDebug("common::set_damage", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $result;
+}
+
 function get_damages() { 
   global $user;
-  $result = db_query("SELECT * FROM damage;", array());
+  $result = db_query("SELECT * FROM damage WHERE enabled=1;", array());
   echoDebug("common::get_damages", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
