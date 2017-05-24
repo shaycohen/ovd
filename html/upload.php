@@ -5,48 +5,41 @@ if ((include 'common.php') != TRUE ) {
 	return false;
 }
 
-$target_dir = "/var/www/html/uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$damage_id = set_damage();
+$target_dir = "/var/www/html/damages/";
+$target_file = $target_dir . $damage_id . '.jpg';
+$target_thumb = $target_dir . $damage_id . '_thumb.jpg';
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-// Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.";
+        echoError("upload::getimagesize", "False");
         $uploadOk = 0;
     }
 }
-// Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
+    echoError("upload::file_exists", "True");
     $uploadOk = 0;
 }
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    echoError("upload", "File format is not supported");
     $uploadOk = 0;
 }
 
-echo '<pre>';
 if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
-    echo "File is valid, and was successfully uploaded.\n";
+    $convert_to_thumb = "convert -thumbnail 200 $target_file $target_thumb 2>&1";
+    $output = system($convert_to_thumb, $retval);
+    if ($retval > 0) { 
+      echoError("upload::create_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
+    }
+    redirect("/damage.html?manifest_id=$_POST[manifest_id]");
 } else {
-    echo "Possible file upload attack!\n";
+    echoError("upload::move_uploaded_file", "Failed");
 }
 
-echo 'Here is some more debugging info:';
-echoDebug("upload::post_upload", $_FILES, 5);
-
-print "</pre>";
-
+echoDebug("damage::post_upload", $_FILES, 5);
 

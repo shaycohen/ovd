@@ -1,14 +1,44 @@
 angular.module('ui.bootstrap.ovd', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http) {
+angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http, $location) {
+  $scope.$location = $location;
+  console.log($location.absUrl());
+  $scope.getUrlParam = function getUrlParam(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
+
+  if($location.absUrl().indexOf('manifest_id') > -1){    
+    $scope.get_manifest_id= $scope.getUrlParam('manifest_id');
+    console.log("manifest_id: " + $scope.get_manifest_id);
+  }
+  if($location.absUrl().indexOf('type') > -1){    
+    $scope.get_damage_type= $scope.getUrlParam('damage_type');
+    console.log("damage_type: " + $scope.get_damage_type);
+  }
   $scope.oneAtATime = true;
-  
   $scope.ui = {
     'selectContainer': "Container",
     'selectWarehouse': "Warehouse",
     'selectManifest': "Manifest",
     'uploadPhoto': "Upload Photo",
+    'internalDamage': "Internal Damages",
+    'externalDamage': "External Damages",
+    'labeledDamage': "Labeled Damages",
     'all': "All",
-    'welcome': "Welcome to OVD"
+    'welcome': "Welcome to OVD",
+    'notes': "Notes",
+    'submit': "Submit",
+    'photo': "Photo"
   };
   $http.get("api.php?action=get_warehouse")
   .then(function(response) {

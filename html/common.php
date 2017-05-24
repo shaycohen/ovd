@@ -70,7 +70,7 @@ function db_query($query, $params) {
   if ($_GET[debug_level] > 3) { 
     try { 
       if($stmt->execute($params)) { ;
-        $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt);
+        $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt, 'lastInsertId'=>$dbh->lastInsertId());
         echoDebug('common::db_query::result', $return, 4);
         return $return;
       } else {
@@ -99,7 +99,7 @@ function db_query($query, $params) {
     }
   } else { 
     if ($stmt->execute($params)) {
-      $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt);
+      $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt, 'lastInsertId'=>$dbh->lastInsertId());
       echoDebug('common::db_query::result', $return, 4);
       return $return;
     } else {
@@ -184,6 +184,14 @@ function get_manifests() {
   return $fetchAll;
 }
 
+function set_damage() { 
+  $result = db_query("INSERT INTO damage (manifest_id, type, description) values(:manifest_id, :type, :description);", array('manifest_id' => $_POST['manifest_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+  echoDebug("common::set_damage", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $result['lastInsertId'];
+}
+
 function get_damages() { 
   global $user;
   $result = db_query("SELECT * FROM damage;", array());
@@ -197,5 +205,12 @@ function get_user() {
   return auth();
 }
 
+function redirect($url, $permanent = false)
+{
+  header('Location: ' . $url, true, $permanent ? 301 : 302);
+  exit();
+}
+
 $user = auth();
 global $user;
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME='ovd'
-PKGS="docker.io vim curl"
+PKGS="docker.io vim curl imagemagick"
 for PKG in $PKGS
 do
 	dpkg -V $PKG || { 
@@ -71,6 +71,7 @@ docker run --rm \
 docker run -d \
 	--name=$NAME-httpd \
 	--link=$NAME-db:db \
+	-v /vagrant/php.ini:/usr/local/etc/php/php.ini \
 	-e "DBHOST=db" \
 	-e "DBUSER=$DBUSER" \
 	-e "DBPASS=$DBPASS" \
@@ -79,4 +80,6 @@ docker run -d \
 	$PHP_IMG
 docker exec $NAME-httpd sh -c 'exec docker-php-ext-install pdo pdo_mysql'
 docker exec $NAME-httpd sh -c 'exec apache2ctl -k restart'
+docker exec $NAME-httpd sh -c 'exec apt-get update'
+docker exec $NAME-httpd sh -c 'exec apt-get install -y imagemagick'
 true

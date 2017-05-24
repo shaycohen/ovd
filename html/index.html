@@ -9,7 +9,8 @@
     <script src="/ext/jquery.min.js"></script>
     <script src="/ext/bootstrap.min.js"></script>
     <script src="main.js"></script>
-    <link href="/ext/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
   </head>
   <body>
 
@@ -32,25 +33,12 @@
     <div class="row"> <div class="col"><h2>{{ui.selectManifest}}<h></div> </div>
     <div class="row" ng-repeat="m in manifests | filter : { container_id:selectedContainer.id } : true">
       <div class="col">
-        <a href="/damages.html?manifest_id={{ m.id }}" >{{ m.description }}</a>
-        <span class="label {{ damageByManifest[m.id]['types'][1] }}" >Internal</span>
-        <span class="label {{ damageByManifest[m.id]['types'][2] }}">External</span>
-        <span class="label {{ damageByManifest[m.id]['types'][3] }}">Labeled</span>
+        <a href="/damage.html?manifest_id={{ m.id }}">{{ m.description }}</a>
+        <span class="label {{ damageByManifest[m.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
+        <span class="label {{ damageByManifest[m.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
+        <span class="label {{ damageByManifest[m.id]['types'][3] }}"><span class="glyphicon glyphicon-tags"></span></span>
       </div>
     </div>
-
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-    <li role="presentation"><a role="menuitem" href="#">HTML</a></li>
-    <li role="presentation"><a role="menuitem" href="#">CSS</a></li>
-    <li role="presentation"><a role="menuitem" href="#">JavaScript</a></li>
-    <li role="presentation" class="divider"></li>
-    <li role="presentation"><a role="menuitem" href="#">About Us</a></li>
-  </ul>
-</div>
-
 
 <!--
     <select ng-model="selectedManifest" >

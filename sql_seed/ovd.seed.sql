@@ -29,9 +29,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `container` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `warehouse_id` int(11) NOT NULL
+  `warehouse_id` int(11) NOT NULL,
+  PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `container` (`id`, `description`, `warehouse_id`) VALUES
@@ -49,9 +50,10 @@ INSERT INTO `container` (`id`, `description`, `warehouse_id`) VALUES
 --
 
 CREATE TABLE `manifest` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `container_id` int(11) NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
@@ -70,10 +72,11 @@ INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
 --
 
 CREATE TABLE `damage` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `manifest_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
@@ -102,12 +105,13 @@ INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `description`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `fname` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `lname` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `warehouse_id` int(11) NOT NULL,
-  `pw` varchar(2048) NOT NULL
+  `pw` varchar(2048) NOT NULL,
+  PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `user` (`id`, `fname`, `lname`, `username`, `warehouse_id`, `pw`) VALUES
@@ -122,8 +126,9 @@ INSERT INTO `user` (`id`, `fname`, `username`, `lname`, `warehouse_id`, `pw`) VA
 --
 
 CREATE TABLE `warehouse` (
-  `id` int(11) NOT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
