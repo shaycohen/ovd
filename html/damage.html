@@ -17,7 +17,7 @@
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}} &nbsp; <a href="/upload.html?manifest_id={{ get_manifest_id }}&damage_type=1"><span class="glyphicon glyphicon-plus"></h></span></a></div></div>
     <table><tr><td ng-repeat="d in damages" ng-if="d.manifest_id==get_manifest_id && d.type==1">
       <BR><BR>
-      <img src="/damages/{{ d.id }}.jpg" width=50%>
+      <img src="/damages/{{ d.id }}_thumb.jpg" width=50%>
       <BR>
       {{ d.description }}
     </td></tr></table>
@@ -25,14 +25,14 @@
     <div class="row"> <div class="col"><h2>{{ui.externalDamage}} &nbsp; <a href="/upload.html?manifest_id={{ get_manifest_id }}&damage_type=2"><span class="glyphicon glyphicon-plus"></h></span></a></div></div>
     <table><tr><td ng-repeat="d in damages" ng-if="d.manifest_id==get_manifest_id && d.type==2">
       <BR><BR>
-      <img src="/damages/{{ d.id }}.jpg" width=50%><BR>
+      <img src="/damages/{{ d.id }}_thumb.jpg" width=50%><BR>
       {{ d.description }}
     </td></tr></table>
 
     <div class="row"> <div class="col"><h2>{{ui.labeledDamage}} &nbsp; <a href="/upload.html?manifest_id={{ get_manifest_id }}&damage_type=3"><span class="glyphicon glyphicon-plus"></h></span></a></div></div>
     <table><tr><td ng-repeat="d in damages" ng-if="d.manifest_id==get_manifest_id && d.type==3">
       <BR><BR>
-      <img src="/damages/{{ d.id }}.jpg" width=50%><br>
+      <img src="/damages/{{ d.id }}_thumb.jpg" width=50%><br>
       {{ d.description }}
     </td></tr></table>
   </div>

@@ -38,7 +38,8 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'welcome': "Welcome to OVD",
     'notes': "Notes",
     'submit': "Submit",
-    'photo': "Photo"
+    'photo': "Photo",
+    'login': "Please Login"
   };
   $http.get("api.php?action=get_warehouse")
   .then(function(response) {

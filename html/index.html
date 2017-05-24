@@ -1,6 +1,6 @@
 <!doctype html>
 <html ng-app="ui.bootstrap.ovd">
-  <head>
+  <head><title>Welcome to OVD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="/ext/angular.js"></script>
     <script src="/ext/angular-animate.js"></script>
@@ -10,49 +10,20 @@
     <script src="/ext/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/login.css">
 
   </head>
   <body>
 
 <div ng-controller="mainCtrl">
-  <div class="container">
-    <div class="row"> <div class="col"><h2>{{ui.selectWarehouse}}</h></div> </div>
-    <div class="row"> <div class="col">
-        <select ng-model="selectedWarehouse">
-          <option ng-repeat="w in warehouse" >{{ w.description }}</option>
-        </select>
-    </div> </div>
-    <div class="row"> <div class="col"><h2>{{ ui.selectContainer }}</h></div> </div>
-    <div class="row"> <div class="col">
-      <select ng-model="selectedContainer">
-        <option ng-value="" ng-selected="{{1 == 1}}">{{ ui.all }}</option>
-        <option ng-repeat="c in containers" ng-value="c">{{c.description}}</option>
-      </select>
-    <br><br>
-    </div> </div>
-    <div class="row"> <div class="col"><h2>{{ui.selectManifest}}<h></div> </div>
-    <div class="row" ng-repeat="m in manifests | filter : { container_id:selectedContainer.id } : true">
-      <div class="col">
-        <a href="/damage.html?manifest_id={{ m.id }}">{{ m.description }}</a>
-        <span class="label {{ damageByManifest[m.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
-        <span class="label {{ damageByManifest[m.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
-        <span class="label {{ damageByManifest[m.id]['types'][3] }}"><span class="glyphicon glyphicon-tags"></span></span>
-      </div>
-    </div>
-
-<!--
-    <select ng-model="selectedManifest" >
-      <option ng-value="0"> Container: {{selectedContainer.description}} </option>
-      <option ng-repeat="m in manifests | filter : { container_id:selectedContainer.id } : true">{{m.description}}</option>
-    </select>
-    </div> </div>
-    <div class="row"> <div class="col">{{ui.uploadPhoto}} </div> </div>
-    <div class="row"> <div class="col">
-      <input type="file" id="file" name="file"/>
-      <button ng-click="add()">Add</button>
-    </div> </div>
--->
-  </div>
+<form class="form-signin" method="POST" action="login.php">
+  <h2 class="form-signin-heading">{{ ui.login }}</h2>
+  <div class="input-group">
+<span class="input-group-addon" id="basic-addon1">@</span>
+<input type="text" name="username" class="form-control" placeholder="Username" required>
 </div>
-</body> </html>
-
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+</form>
+</body></html>

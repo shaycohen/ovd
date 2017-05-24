@@ -1,11 +1,9 @@
 <?php 
 
-if ((include 'common.php') != TRUE ) {
+if ((require_once 'common.php') != TRUE ) {
 	echo "\necho 'Error with loading common functions file'";
 	return false;
 }
-
-### MAIN ###
 
 if (isset($_GET['action'])) { 
   if ($_GET['action'] == 'get_containers') {
@@ -17,7 +15,7 @@ if (isset($_GET['action'])) {
   }
 
   if ($_GET['action'] == 'get_user') {
-    echo json_encode(geT_user());
+    echo json_encode($_SESSION);
   }
 
   if ($_GET['action'] == 'get_manifests') {
@@ -28,11 +26,5 @@ if (isset($_GET['action'])) {
     echo json_encode(get_damages());
   }
 }
-  
-  
-
-
-#phpinfo();
-
 
 ?>

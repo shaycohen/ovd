@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 $br = "<BR>\n";
 global $br;
 $db_name='ovd';
@@ -115,7 +116,6 @@ function auth() {
       header('HTTP/1.1 401 Unauthorized');
       header('WWW-Authenticate: Digest realm="'.$realm.
              '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
-
       die('Not Authorized');
   }
 
@@ -131,7 +131,6 @@ function auth() {
     die('Missing Credentials');
   }
   echoDebug('common:auth::user', $user, 9);
-  return $user;
 
   $A1 = md5($data['username'] . ':' . $realm . ':' . $user['pw']);
   $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
@@ -140,6 +139,7 @@ function auth() {
   if ($data['response'] != $valid_response)
       die('Wrong Credentials');
   echoDebug("common::auth", $data, 3);
+  return $user;
 }
 
 
@@ -160,23 +160,20 @@ function http_digest_parse($txt) {
 }
 
 function get_containers() { 
-  global $user;
-  $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($user[id]));
+  $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($_SESSION[id]));
   echoDebug("common::get_containers", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
 function get_warehouse() { 
-  global $user;
-  $result = db_query("SELECT * FROM warehouse WHERE id=?", array($user[id]));
+  $result = db_query("SELECT * FROM warehouse where id=?", array($_SESSION[warehouse_id]));
   echoDebug("common::get_warehouse", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
 function get_manifests() { 
-  global $user;
   $result = db_query("SELECT * FROM manifest;", array());
   echoDebug("common::get_manifests", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
@@ -201,16 +198,15 @@ function get_damages() {
   return $fetchAll;
 }
 
-function get_user() { 
-  return auth();
-}
-
 function redirect($url, $permanent = false)
 {
   header('Location: ' . $url, true, $permanent ? 301 : 302);
   exit();
 }
 
-$user = auth();
+$user = $_SESSION;
 global $user;
 
+#redirect("/loginfo.php");
+
+?>
