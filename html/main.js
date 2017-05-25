@@ -37,7 +37,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'selectContainer': "Container",
     'selectWarehouse': "Warehouse",
     'selectManifest': "Manifest",
-    'uploadPhoto': "Upload Photo",
+    'takePhoto': "Take a Photo",
     'internalDamage': "Internal Damages",
     'externalDamage': "External Damages",
     'labeledDamage': "Labeled Damages",
@@ -97,5 +97,4 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
 
     r.readAsBinaryString(f);
   }
-
 });

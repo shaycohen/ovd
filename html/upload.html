@@ -13,20 +13,23 @@
 </head>
 <body>
 <div ng-controller="mainCtrl">
-  <div class="container"><div class="row"><div class="col">
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-      <input type=hidden name="manifest_id" id="manifest_id" value=" {{ get_manifest_id }}">
-      <input type=hidden name="type" id="type" value=" {{ get_damage_type }}">
-      <h1><span class="glyphicon glyphicon-picture" ng-style="{'font-size': '100%'}"></span><span ng-style="{'font-size': '60%'}"><input type="file" name="fileToUpload" id="fileToUpload"></span><BR>
-      <BR>
-      <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list"></span></span>
-        <input type="text" class="form-control" placeholder="{{ui.notes}}" aria-describedby="basic-addon1" name="description" id="description" ng-style="{'width': '90%'}">
-      </div>
-      <BR>
-      <input type="submit" value="{{ ui.submit }}" name="submit">
-    </form>
-  </div></div></div>
+  <form class="form-group" action="upload.php" method="post" enctype="multipart/form-data">
+    <input type=hidden name="manifest_id" id="manifest_id" value=" {{ get_manifest_id }}">
+    <input type=hidden name="type" id="type" value=" {{ get_damage_type }}">
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">
+        <input type="file" name="fileToUpload" id="fileToUpload" class="inputfile">
+        <label for="fileToUpload">
+    <button class="btn btn-lg btn-info btn-block" type="submit" name=submit>{{ ui.takePhoto }} &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-picture" ng-if="fileToUpload"></span></button>
+</label>
+      </span>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list"></span></span>
+      <input type="text" class="form-control" placeholder="{{ui.notes}}" aria-describedby="basic-addon1" name="description" id="description" ng-style="{'width': '100%'}">
+    </div>
+    <button class="btn btn-lg btn-success btn-block" type="submit" name=submit>{{ ui.submit }}</button>
+  </form>
 </div>
 </body> </html>
 
