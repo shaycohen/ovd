@@ -17,6 +17,14 @@
 
 <div ng-controller="mainCtrl">
   <div class="container">
+    <div class="row">
+      <div class="col-sm-1">
+       <i>Welcome</i>
+        <a href="#">{{user.lname}}, {{user.fname}} <span class="glyphicon glyphicon-user" ng-style="{'glyphicon.font-size' : '50px'}"</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
     <div class="row"> <div class="col col-sm-offset-2"><h2>{{ui.selectWarehouse}}</h></div> </div>
     <div class="row"> <div class="col">
        &nbsp;&nbsp;<select ng-model="selectedWarehouse" value="wh" ng-style="{'width': '50%'}">
@@ -29,19 +37,26 @@
         <option ng-repeat="c in containers" ng-value="c">{{c.description}}</option>
       </select>
     <br><br>
-    </div> </div>
+    </div></div>
+  </div>
+    <div class="container" ng-if="selectedContainer">
     <div class="row"> <div class="col col-sm-offset-2"><h2>{{ui.selectManifest}}<h></div> </div>
+    <div class="row"> <div class="col">
+        <h3><a href="/damage.html?container_id={{ selectedContainer.id }}">{{ selectedContainer.description }}</a></h>
+        <span class="label {{ damages['container'][selectedContainer.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
+        <span class="label {{ damages['container'][selectedContainer.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
+    </div> </div>
     <div class="row" ng-repeat="m in manifests | filter : { container_id:selectedContainer.id } : true" ng-if="selectedContainer">
       <div class="col">
         <h3><a href="/damage.html?manifest_id={{ m.id }}">{{ m.description }}</a></h>
-        <span class="label {{ damageByManifest[m.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
-        <span class="label {{ damageByManifest[m.id]['types'][2] }}"><span class="glyphicon glyphicon-copy"></span></span>
-        <span class="label {{ damageByManifest[m.id]['types'][3] }}"><span class="glyphicon glyphicon-paste"></span></span>
+        <span class="label {{ damages['manifest'][m.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
+        <span class="label {{ damages['manifest'][m.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
+        <span class="label {{ damages['manifest'][m.id]['types'][3] }}"><span class="glyphicon glyphicon-barcode"></span></span>
       </div>
     </div>
-    <div class="row"> <div class="col-md-2 col-md-offset-1"><a href="/logout.php"><span class="glyphicon glyphicon-log-out" ng-style="{'glyphicon.font-size' : '50px'}"></a></div></div>
-
   </div>
+  <BR><BR>
+  <a href="/logout.php">{{ui.logout}} <span class="glyphicon glyphicon-log-out" ng-style="{'glyphicon.font-size' : '50px'}"</span></a>
 </div>
 </body> </html>
 

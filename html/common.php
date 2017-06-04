@@ -182,7 +182,12 @@ function get_manifests() {
 }
 
 function set_damage() { 
-  $result = db_query("INSERT INTO damage (manifest_id, type, description) values(:manifest_id, :type, :description);", array('manifest_id' => $_POST['manifest_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+  if ($_POST['manifest_id'] > 0) { 
+    $result = db_query("INSERT INTO damage (manifest_id, type, description) values(:manifest_id, :type, :description);", array('manifest_id' => $_POST['manifest_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+  }
+  if ($_POST['container_id'] > 0) { 
+    $result = db_query("INSERT INTO damage (container_id, type, description) values(:container_id, :type, :description);", array('container_id' => $_POST['container_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+  }
   echoDebug("common::set_damage", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);

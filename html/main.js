@@ -1,5 +1,6 @@
 angular.module('ui.bootstrap.ovd', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http, $location) {
+  $scope._ = window._;
   $scope.$location = $location;
   console.log($location.absUrl());
   $scope.getUrlParam = function getUrlParam(sParam) {
@@ -24,6 +25,10 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     $scope.get_fmsg = 0;
   }
  
+  if($location.absUrl().indexOf('container_id') > -1){    
+    $scope.get_container_id = $scope.getUrlParam('container_id');
+    console.log("container_id: " + $scope.get_container_id);
+  }
   if($location.absUrl().indexOf('manifest_id') > -1){    
     $scope.get_manifest_id = $scope.getUrlParam('manifest_id');
     console.log("manifest_id: " + $scope.get_manifest_id);
@@ -46,8 +51,15 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'notes': "Notes",
     'submit': "Submit",
     'photo': "Photo",
-    'login': "Please Login"
+    'login': "Please Login",
+    'logout': "Logout"
   };
+
+  $http.get("api.php?action=get_user")
+  .then(function(response) {
+      $scope.user = response.data;
+  });
+
   $http.get("api.php?action=get_warehouse")
   .then(function(response) {
       $scope.warehouse = response.data;
@@ -65,36 +77,43 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
 
   $http.get("api.php?action=get_damages")
   .then(function(response) {
-      $scope.damages = response.data;
-      $scope.damageByManifest = {};
-      angular.forEach($scope.damages,function(value,key){
-        if (typeof $scope.damageByManifest[value.manifest_id] == 'undefined' || typeof $scope.damageByManifest[value.manifest_id]['damages'] == 'undefined') {
-          $scope.damageByManifest[value.manifest_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+      $scope.get_damages = response.data;
+      $scope.damages = {'manifest': {}, 'container': {}};
+      angular.forEach($scope.get_damages,function(damage,key){
+        if (typeof damage.manifest_id != 'undefined' ) { 
+          if (typeof $scope.damages['manifest'][damage.manifest_id] == 'undefined' || typeof $scope.damages['manifest'][damage.manifest_id]['damages'] == 'undefined') {
+            $scope.damages['manifest'][damage.manifest_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+          }
+          $scope.damages['manifest'][damage.manifest_id]['damages'].push(damage);
+          $scope.damages['manifest'][damage.manifest_id]['types'][damage.type] = 'label-success';
+        } 
+        if (typeof damage.container_id != 'undefined' ) { 
+          if (typeof $scope.damages['container'][damage.container_id] == 'undefined' || typeof $scope.damages['container'][damage.container_id]['damages'] == 'undefined') {
+            $scope.damages['container'][damage.container_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default' }} ;
+          }
+          $scope.damages['container'][damage.container_id]['damages'].push(damage);
+          $scope.damages['container'][damage.container_id]['types'][damage.type] = 'label-success';
         }
-        $scope.damageByManifest[value.manifest_id]['damages'].push(value);
-        $scope.damageByManifest[value.manifest_id]['types'][value.type] = 'label-success';
-        
       });
+    console.log($scope.damages);
   });
 
   $scope.labeltest = "label-primary";
 
-  $scope.status = {
-    isCustomHeaderOpen: false,
-    isFirstOpen: false,
-    isFirstDisabled: false
-  };
-
-  $scope.add = function() {
-    var f = document.getElementById('file').files[0],
-        r = new FileReader();
-
-    r.onloadend = function(e) {
-      var data = e.target.result;
-      console.log(data);
-      //send your binary data via $http or $resource or do anything else with it
-    }
-
-    r.readAsBinaryString(f);
+  $scope.getContainerById = function(id=$scope.get_container_id) {
+    var intId = parseInt(id);
+    return $scope._.find($scope.containers, {id: intId});
   }
+  $scope.getManifestById = function(id=$scope.get_manifest_id) {
+    var intId = parseInt(id);
+    return $scope._.find($scope.manifests, {id: intId});
+  }
+  $scope.getContainerByManifestId = function(id=$scope.get_manifest_id) {
+    var intId = parseInt(id);
+    var containerId = $scope.getManifestById(intId);
+    if (typeof containerId != 'undefined') { 
+      return $scope._.find($scope.containers, {id: parseInt(containerId.container_id)});
+    }
+  }
+
 });

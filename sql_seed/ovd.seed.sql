@@ -64,6 +64,8 @@ INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
 (3, 2, 'manifest3_cont2');
 INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
 (4, 3, 'manifest4_cont3');
+INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
+(5, 4, 'manifest5_cont4');
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,8 @@ INSERT INTO `manifest` (`id`, `container_id`, `description`) VALUES
 
 CREATE TABLE `damage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `manifest_id` int(11) NOT NULL,
+  `manifest_id` int(11),
+  `container_id` int(11),
   `type` int(11) NOT NULL,
   `enabled` int(1), 
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -92,12 +95,12 @@ INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VA
 (5, 2, 1, 1, 'damage5');
 INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
 (6, 2, 2, 1, 'damage6');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
-(7, 2, 3, 1, 'damage6');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
-(8, 3, 1, 1, 'damage7');
-INSERT INTO `damage` (`id`, `manifest_id`, `type`,  `enabled`, `description`) VALUES
-(9, 4, 1, 1, 'damage8');
+INSERT INTO `damage` (`id`, `container_id`, `type`,  `enabled`, `description`) VALUES
+(7, 1, 1, 1, 'damage_container_1');
+INSERT INTO `damage` (`id`, `container_id`, `type`,  `enabled`, `description`) VALUES
+(8, 2, 1, 1, 'damage_container_2');
+INSERT INTO `damage` (`id`, `container_id`, `type`,  `enabled`, `description`) VALUES
+(9, 3, 1, 1, 'damage_container_3');
 
 -- --------------------------------------------------------
 
@@ -199,6 +202,8 @@ ALTER TABLE `manifest`
 --
 ALTER TABLE `damage`
   ADD CONSTRAINT `damage_manifest_id` FOREIGN KEY (`manifest_id`) REFERENCES `manifest` (`id`);
+ALTER TABLE `damage`
+  ADD CONSTRAINT `damage_container_id` FOREIGN KEY (`container_id`) REFERENCES `manifest` (`id`);
 
 --
 -- Constraints for table `user`
