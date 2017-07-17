@@ -53,6 +53,7 @@ CREATE TABLE `manifest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `container_id` int(11) NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

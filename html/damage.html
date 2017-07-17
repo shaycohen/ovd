@@ -54,6 +54,8 @@
         {{ d.description }}
       </td></tr></table>
     </div>
+      <button class="btn btn-sm btn-warning btn-block" ng-click="setSerialStatus(1)" ng-if="getManifestById().status==0">{{ ui.closeSerial }}</button>
+      <button class="btn btn-sm btn-primary btn-block" ng-click="setSerialStatus(0)" ng-if="getManifestById().status==1">{{ ui.openSerial }}</button>
   </div>
 </div>
 </body> </html>

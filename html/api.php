@@ -25,6 +25,10 @@ if (isset($_GET['action'])) {
   if ($_GET['action'] == 'get_damages') {
     echo json_encode(get_damages());
   }
+
+  if ($_GET['action'] == 'set_serial_status') {
+    echo json_encode(set_serial_status($_GET['id'], $_GET['stat']));
+  }
 }
 
 ?>

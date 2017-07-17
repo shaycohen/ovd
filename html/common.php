@@ -202,6 +202,14 @@ function set_damage_enabled($damage_id) {
   return $result;
 }
 
+function set_serial_status($id, $stat) { 
+  $result = db_query("UPDATE manifest set status=:stat WHERE id=:id", array('id'=>$id, 'stat'=>$stat));
+  echoDebug("common::set_serial_status", $result, 0);
+  $fetchAll=$result[stmt]->fetchAll();
+  array_unshift($fetchAll, $result[fetch]);
+  return $result;
+}
+
 function get_damages() { 
   global $user;
   $result = db_query("SELECT * FROM damage WHERE enabled=1;", array());

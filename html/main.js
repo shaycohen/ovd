@@ -1,5 +1,5 @@
 angular.module('ui.bootstrap.ovd', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http, $location) {
+angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http, $location, $window) {
   $scope._ = window._;
   $scope.$location = $location;
   console.log($location.absUrl());
@@ -52,6 +52,9 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'submit': "Submit",
     'photo': "Photo",
     'login': "Please Login",
+    'showClosed': "Show Closed Serials",
+    'closeSerial': "Close Serial",
+    'openSerial': "Open Serial",
     'logout': "Logout"
   };
 
@@ -114,6 +117,14 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     if (typeof containerId != 'undefined') { 
       return $scope._.find($scope.containers, {id: parseInt(containerId.container_id)});
     }
+  }
+  $scope.setSerialStatus = function(stat, id=$scope.get_manifest_id) { 
+    $http.get("api.php?action=set_serial_status&id=" + id + "&stat=" + stat)
+    .then(function(response) {
+        console.log(response.data);
+        var url = $window.location.protocol + "//" + $window.location.host + "/main.html";
+        $window.location.href = url;
+    });
   }
 
 });
