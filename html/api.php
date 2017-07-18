@@ -18,8 +18,8 @@ if (isset($_GET['action'])) {
     echo json_encode($_SESSION);
   }
 
-  if ($_GET['action'] == 'get_manifests') {
-    echo json_encode(get_manifests());
+  if ($_GET['action'] == 'get_serials') {
+    echo json_encode(get_serials());
   }
 
   if ($_GET['action'] == 'get_damages') {

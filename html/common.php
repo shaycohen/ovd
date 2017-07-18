@@ -160,30 +160,35 @@ function http_digest_parse($txt) {
 }
 
 function get_containers() { 
-  $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($_SESSION[id]));
+  #warehouse<-> user ACL ?# $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($_SESSION[id]));
+  $result = db_query("SELECT * FROM container", array());
   echoDebug("common::get_containers", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
-function get_warehouse() { 
-  $result = db_query("SELECT * FROM warehouse where id=?", array($_SESSION[warehouse_id]));
+function get_warehouse($id = '') { 
+  #warehouse<-> user ACL ?# if ($id == '') { 
+  #warehouse<-> user ACL ?# $id = $_SESSION[warehouse_id];
+  #warehouse<-> user ACL ?# }
+  #warehouse<-> user ACL ?# $result = db_query("SELECT * FROM warehouse where id=?", array($id));
+  $result = db_query("SELECT * FROM warehouse", array());
   echoDebug("common::get_warehouse", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
-function get_manifests() { 
-  $result = db_query("SELECT * FROM manifest;", array());
-  echoDebug("common::get_manifests", $result, 0);
+function get_serials() { 
+  $result = db_query("SELECT * FROM serial;", array());
+  echoDebug("common::get_serials", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
 
 function set_damage() { 
-  if ($_POST['manifest_id'] > 0) { 
-    $result = db_query("INSERT INTO damage (manifest_id, type, description) values(:manifest_id, :type, :description);", array('manifest_id' => $_POST['manifest_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+  if ($_POST['serial_id'] > 0) { 
+    $result = db_query("INSERT INTO damage (serial_id, type, description) values(:serial_id, :type, :description);", array('serial_id' => $_POST['serial_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
   }
   if ($_POST['container_id'] > 0) { 
     $result = db_query("INSERT INTO damage (container_id, type, description) values(:container_id, :type, :description);", array('container_id' => $_POST['container_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
@@ -203,7 +208,7 @@ function set_damage_enabled($damage_id) {
 }
 
 function set_serial_status($id, $stat) { 
-  $result = db_query("UPDATE manifest set status=:stat WHERE id=:id", array('id'=>$id, 'stat'=>$stat));
+  $result = db_query("UPDATE serial set status=:stat WHERE id=:id", array('id'=>$id, 'stat'=>$stat));
   echoDebug("common::set_serial_status", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
