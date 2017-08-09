@@ -32,6 +32,7 @@ CREATE TABLE `container` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `warehouse_id` int(11) NOT NULL,
+  `active` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -44,7 +45,8 @@ CREATE TABLE `container` (
 CREATE TABLE `serial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `container_id` int(11) NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `number` varchar(30) NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   `status` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

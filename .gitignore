@@ -2,3 +2,5 @@ docker-images/*.tar
 docker-images/phpmyadmin/*.tar
 .vagrant
 html/damages/*
+log/*
+html/import/*

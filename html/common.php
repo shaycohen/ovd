@@ -161,7 +161,7 @@ function http_digest_parse($txt) {
 
 function get_containers() { 
   #warehouse<-> user ACL ?# $result = db_query("SELECT * FROM container WHERE warehouse_id IN (SELECT id FROM warehouse WHERE id=?)", array($_SESSION[id]));
-  $result = db_query("SELECT * FROM container", array());
+  $result = db_query("SELECT * FROM container WHERE active=1", array());
   echoDebug("common::get_containers", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);

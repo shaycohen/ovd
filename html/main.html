@@ -49,10 +49,12 @@
     </div> </div>
     <div class="row" ng-repeat="m in serials | filter : { container_id:selectedContainer.id } : true" ng-if="selectedContainer">
       <div class="col" ng-if='( ! showClosed && m.status == 0 )  || showClosed '>
-        <h3><a href="/damage.html?serial_id={{ m.id }}">{{ m.description }}</a></h>
+        <h3><a href="/damage.html?serial_id={{ m.id }}">{{ m.number }}</a></h>
         <span class="label {{ damages['serial'][m.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
         <span class="label {{ damages['serial'][m.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
         <span class="label {{ damages['serial'][m.id]['types'][3] }}"><span class="glyphicon glyphicon-barcode"></span></span>
+	<BR>
+	<small>{{ m.description }}</small>
       </div>
     </div>
   </div>
