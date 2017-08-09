@@ -70,12 +70,12 @@ function db_query($query, $params) {
 	$stmt = $dbh->prepare($query);
   if ($_GET[debug_level] > 3) { 
     try { 
-      if($stmt->execute($params)) { ;
+      if($stmt->execute($params)) { 
         $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt, 'lastInsertId'=>$dbh->lastInsertId());
         echoDebug('common::db_query::result', $return, 4);
         return $return;
       } else {
-        return array('err'=>2);;
+        return array('err'=>2);
       }
     }
     catch (PDOException $err) { 
@@ -104,7 +104,7 @@ function db_query($query, $params) {
       echoDebug('common::db_query::result', $return, 4);
       return $return;
     } else {
-      return array('err'=>2);;
+      return array('err'=>2);
     }
   }
 }
