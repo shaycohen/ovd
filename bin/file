@@ -1,0 +1,120 @@
+/ovrs/oc/taly
+Server: dbcftp
+Files: TALLY_*.TXT
+Connected to ovseasil.ovrs.co.il.
+220 ovseasp6 FTP server (Version 4.2 Mon Jan 5 10:10:01 CST 2015) ready.
+331 Password required for dbc.
+230-Last unsuccessful login: Sat Jun 24 16:17:08 IDT 2017 on /dev/pts/21 from vpn_client_2_26
+230-Last login: Mon Aug  7 16:24:28 IDT 2017 on ftp from User_2_38_moxa
+230 User dbc logged in.
+Interactive mode off.
+250 CWD command successful.
+Local directory now /root/ovd/html/import
+local: TALLY_EXCH_20170807090320.TXT remote: TALLY_EXCH_20170807090320.TXT
+200 PORT command successful.
+150 Opening data connection for TALLY_EXCH_20170807090320.TXT (65 bytes).
+226 Transfer complete.
+66 bytes received in 0.00 secs (528.3043 kB/s)
+local: TALLY_LIST.TXT remote: TALLY_LIST.TXT
+200 PORT command successful.
+150 Opening data connection for TALLY_LIST.TXT (16625 bytes).
+226 Transfer complete.
+16720 bytes received in 0.00 secs (15.1861 MB/s)
+221 Goodbye.
+Skipping Serial I170532179487A07001<BR>
+Skipping Serial I170532179487A06001<BR>
+Skipping Serial ZZ0006             <BR>
+Skipping Serial ZZ0007             <BR>
+Skipping Serial ZZ0008             <BR>
+Skipping Serial I174957013302A16001<BR>
+Skipping Serial I174957013302A15001<BR>
+Skipping Serial I174957013302A14001<BR>
+Skipping Serial I174957064297A18001<BR>
+Skipping Serial I174957064297A17001<BR>
+Skipping Serial I174957064297A16001<BR>
+Skipping Serial I174957064297A15001<BR>
+Skipping Serial I174957064297A14001<BR>
+Skipping Serial I174957064997A06001<BR>
+Skipping Serial I174957064997A05001<BR>
+Skipping Serial I174957064232A31001<BR>
+Skipping Serial I174957064232A60001<BR>
+Skipping Serial I174957064319A01001<BR>
+Skipping Serial I174957064824A02001<BR>
+Skipping Serial I174957064323V01001<BR>
+Skipping Serial I174957064323H01001<BR>
+Skipping Serial I174957064323P01001<BR>
+Skipping Serial I174957064307A01001<BR>
+Skipping Serial I174957064323K01001<BR>
+Skipping Serial I174957064318A03001<BR>
+Skipping Serial I174957064335A10001<BR>
+Skipping Serial I174957064231A02001<BR>
+Skipping Serial I174957064237A18001<BR>
+Skipping Serial I174957064237A15001<BR>
+Skipping Serial I174957064237A14001<BR>
+Skipping Serial I174957064237A13001<BR>
+Skipping Serial I174957064297A31001<BR>
+Skipping Serial I174957064297A30001<BR>
+Skipping Serial I174957064436A12001<BR>
+Skipping Serial I170499005331A06002<BR>
+Skipping Serial I174957064232A07001<BR>
+Skipping Serial I174957064232A08001<BR>
+Skipping Serial I174957064232A09001<BR>
+Skipping Serial I174957064232A10001<BR>
+Skipping Serial I174957064232A11001<BR>
+Skipping Serial I174957064232A12001<BR>
+Skipping Serial I174957064232A13001<BR>
+Skipping Serial I174957064232A14001<BR>
+Skipping Serial I174957064232A15001<BR>
+Skipping Serial I174957064232A16001<BR>
+Skipping Serial I174957012415A16001<BR>
+Skipping Serial I174957012436A01001<BR>
+Skipping Serial I174957012319A01001<BR>
+Skipping Serial I174957012319A03001<BR>
+Skipping Serial I174957012319A04001<BR>
+Skipping Serial I174957012958A11001<BR>
+Skipping Serial I174957064237A08001<BR>
+Skipping Serial I174957064237A07001<BR>
+Skipping Serial I174957064237A06001<BR>
+Skipping Serial I174957064237A05001<BR>
+Skipping Serial I174957064237A04001<BR>
+Skipping Serial I174957064237A02001<BR>
+Skipping Serial I174957064843A06001<BR>
+Skipping Serial ZZ0001             <BR>
+Skipping Serial ZZ0006             <BR>
+Skipping Serial ZZ0007             <BR>
+Skipping Serial ZZ0008             <BR>
+Skipping Serial I174957064232A58001<BR>
+Skipping Serial I174957064335A03001<BR>
+Skipping Serial I174957064489A09001<BR>
+Skipping Serial I174957064489A08001<BR>
+Skipping Serial I174957064381A02001<BR>
+Skipping Serial I174957064335A05001<BR>
+Skipping Serial I174957064335A04001<BR>
+Skipping Serial I174957064824A06001<BR>
+Skipping Serial I174957064824A04001<BR>
+Skipping Serial I174957064824A05001<BR>
+Skipping Serial I174957064824A03001<BR>
+Skipping Serial I174957064323G01001<BR>
+Skipping Serial I174957064319A02001<BR>
+Skipping Serial I174957064307A03001<BR>
+Skipping Serial I174957064307A02001<BR>
+Skipping Serial I174957064523A05001<BR>
+Skipping Serial I174957064323E01001<BR>
+Skipping Serial I174957064266A35001<BR>
+Skipping Serial I174957064378A01001<BR>
+Skipping Serial I174957064297A49001<BR>
+Skipping Serial I174957064232A17001<BR>
+Skipping Serial I174957064232A18001<BR>
+Skipping Serial I174957064232A19001<BR>
+Skipping Serial I174957064232A20001<BR>
+Skipping Serial I174957064232A21001<BR>
+Skipping Serial I174957064232A22001<BR>
+Skipping Serial I174957064232A23001<BR>
+Skipping Serial I174957064232A24001<BR>
+Skipping Serial I174957064232A27001<BR>
+Skipping Serial I174957064232A28001<BR>
+Skipping Serial I174957064232A29001<BR>
+Skipping Serial I174957064375A01001<BR>
+Skipping Serial I174957064323X01001<BR>
+ERROR [import::exch_no_such_serial]: I170532179487A06001
+ <BR>
