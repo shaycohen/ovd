@@ -15,8 +15,8 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div ng-controller="mainCtrl">
-<a href="/main.html"> Main </a>
+<div ng-controller="mainCtrl" dir=rtl>
+<a href="/main.html?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}"> Main </a>
   <div class="container" ng-if="get_serial_id > 0">
     <div class="row"> <div class="col col-sm-offset-1"><h1><i> {{getSerialById().number}}<BR>{{getContainerBySerialId().description | limitTo: 100:7 }}<BR>{{getSerialById().description}} </i></h></div></div>
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}} &nbsp; <a href="/upload.html?serial_id={{ get_serial_id }}&damage_type=1"><span class="glyphicon glyphicon-plus"></h></span></a></div></div>
@@ -39,7 +39,7 @@
     </td></tr></table>
       <BR><BR>
   </div>
-  <div class="container" ng-if="get_container_id > 0">
+  <div class="container" ng-if="! get_serial_id > 0">
     <div class="row"> <div class="col col-sm-offset-1"><h1><i>{{getContainerById().description}}</i></h></div></div>
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}} &nbsp; <a href="/upload.html?container_id={{ get_container_id }}&damage_type=1"><span class="glyphicon glyphicon-plus"></h></span></a></div></div>
       <table><tr><td ng-repeat="d in get_damages" ng-if="d.container_id==get_container_id && d.type==1">

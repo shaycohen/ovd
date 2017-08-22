@@ -25,12 +25,16 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     $scope.get_fmsg = 0;
   }
  
-  if($location.absUrl().indexOf('container_id') > -1){    
-    $scope.get_container_id = $scope.getUrlParam('container_id');
+  if($location.absUrl().indexOf('warehouse_id') > -1){    
+    $scope.get_warehouse_id = parseInt($scope.getUrlParam('warehouse_id'));
+    console.log("warehouse_id: " + $scope.get_warehouse_id);
+  }
+   if($location.absUrl().indexOf('container_id') > -1){    
+    $scope.get_container_id = parseInt($scope.getUrlParam('container_id'));
     console.log("container_id: " + $scope.get_container_id);
   }
   if($location.absUrl().indexOf('serial_id') > -1){    
-    $scope.get_serial_id = $scope.getUrlParam('serial_id');
+    $scope.get_serial_id = parseInt($scope.getUrlParam('serial_id'));
     console.log("serial_id: " + $scope.get_serial_id);
   }
   if($location.absUrl().indexOf('type') > -1){    
