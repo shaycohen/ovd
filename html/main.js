@@ -43,7 +43,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'selectWarehouse': "Warehouse",
     'selectSerial': "Serial",
     'takePhoto': "Take a Photo",
-    'internalDamage': "Internal Damages",
+    'internalDamage': "תמונות נזק בתוך המכולה",
     'externalDamage': "External Damages",
     'labeledDamage': "Labeled Damages",
     'all': "All",
