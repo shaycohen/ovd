@@ -40,22 +40,22 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
   $scope.oneAtATime = true;
   $scope.ui = {
     'selectContainer': "מכולה",
-    'selectWarehouse': "Warehouse",
-    'selectSerial': "Serial",
-    'takePhoto': "Take a Photo",
+    'selectWarehouse': "מחסן",
+    'selectSerial': "סידורי",
+    'takePhoto': "שלח תמונה",
     'internalDamage': "תמונות נזק בתוך המכולה",
-    'externalDamage': "External Damages",
-    'labeledDamage': "Labeled Damages",
-    'all': "All",
-    'welcome': "Welcome to OVD",
-    'notes': "Notes",
-    'submit': "Submit",
-    'photo': "Photo",
-    'login': "Please Login",
-    'showClosed': "Show Closed Serials",
-    'closeSerial': "Close Serial",
-    'openSerial': "Open Serial",
-    'logout': "Logout"
+    'externalDamage': "תמונות נזק מחוץ למכולה",
+    'labeledDamage': "תמונות נזק עם מדבקת ברקוד",
+    'all': "הכל",
+    'welcome': "מערכת ניהול נזיקים",
+    'notes': "פרטים",
+    'submit': "שלח",
+    'photo': "תמונה",
+    'login': "אנא הזן פרטי משתמש",
+    'showClosed': "הצג סידוריים שנסגרו",
+    'closeSerial': "סגור סידורי",
+    'openSerial': "פתח סידורי",
+    'logout': "יציאה"
   };
 
   $http.get("api.php?action=get_user")
