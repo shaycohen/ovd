@@ -39,7 +39,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
   }
   $scope.oneAtATime = true;
   $scope.ui = {
-    'selectContainer': "Container",
+    'selectContainer': "מכולה",
     'selectWarehouse': "Warehouse",
     'selectSerial': "Serial",
     'takePhoto': "Take a Photo",
