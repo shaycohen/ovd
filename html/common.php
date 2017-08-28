@@ -72,9 +72,10 @@ function db_query($query, $params) {
     try { 
       if($stmt->execute($params)) { 
         $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt, 'lastInsertId'=>$dbh->lastInsertId());
-        echoDebug('common::db_query::result', $return, 4);
+        echoDebug('common::db_query::result', $return, 3);
         return $return;
       } else {
+        echoError('common::db_query::result', 'Statemenet execution failed');
         return array('err'=>2);
       }
     }
@@ -101,9 +102,10 @@ function db_query($query, $params) {
   } else { 
     if ($stmt->execute($params)) {
       $return = array('fetch'=>$stmt->fetch(), 'stmt'=>$stmt, 'lastInsertId'=>$dbh->lastInsertId());
-      echoDebug('common::db_query::result', $return, 4);
+      echoDebug('common::db_query::result', $return, 2);
       return $return;
     } else {
+      echoError('common::db_query::result', 'Statemenet execution failed');
       return array('err'=>2);
     }
   }
