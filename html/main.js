@@ -59,6 +59,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     'showClosed': "הצג סידוריים שנסגרו",
     'closeSerial': "סגור סידורי",
     'openSerial': "פתח סידורי",
+    'invalid_credentials': "שם משתמש או סיסמא שגויים",
     'logout': "יציאה"
   };
 
