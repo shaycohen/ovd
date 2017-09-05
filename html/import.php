@@ -62,7 +62,7 @@ foreach ($tally as $warehouse => $containers) {
     }
     $container_id = $container_id['id'];
     foreach ($serials as $serial) {
-      $serial_id = db_query("SELECT * FROM serial where number like :serial and container_id=:container:id", array(':serial' => $serial['number'], ':container_id' => $container_id))['fetch'];
+      $serial_id = db_query("SELECT * FROM serial where number like :serial and container_id=:container_id", array(':serial' => $serial['number'], ':container_id' => $container_id))['fetch'];
       if ($serial_id == false) { 
         echo "creating serial container_id = $container_id warehouse_id = $warehouse_id\n";
         $result = db_query ("INSERT INTO serial (number, description, container_id) VALUES(:number, :description, :container_id)", array(':number' => $serial['number'], ':description' => $serial['description'], ':container_id' => $container_id));
@@ -70,7 +70,7 @@ foreach ($tally as $warehouse => $containers) {
         echo "New serial ID: " . $serial_id['id'] . " Number: " . $serial_id['number'] . "\n";
       } else {
         #echo "Skipping Serial ".$serial['number']."\n";
-        $update_res = db_query("UPDATE serial set description=:description WHERE number like :serial and container_id=:container:id", array(':serial' => $serial['number'], ':container_id' => $container_id, ':description' => $serial['description']))['fetch'];
+        $update_res = db_query("UPDATE serial set description=:description WHERE number like :serial and container_id=:container_id", array(':serial' => $serial['number'], ':container_id' => $container_id, ':description' => $serial['description']))['fetch'];
       }
     }
   }
