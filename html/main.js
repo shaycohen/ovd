@@ -80,7 +80,8 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
 
   $http.get("api.php?action=get_serials")
   .then(function(response) {
-    $scope.serials = response.data;
+    $scope.raw_serials = response.data;
+    $scope.serials = [];
 
     $http.get("api.php?action=get_damages")
     .then(function(response) {
@@ -95,21 +96,34 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
           } 
         });
 
-        angular.forEach($scope.serials,function(serial,key){
-          if (typeof serial.id != 'undefined' ) { 
-            if (typeof $scope.damages['serial'][serial.id] == 'undefined' || typeof $scope.damages['serial'][serial.id]['damages'] == 'undefined') {
-              $scope.damages['serial'][serial.id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+        angular.forEach($scope.raw_serials,function(serial,key){
+          if (typeof serial.id != 'undefined' && serial.id != null) { 
+            tmp_serial_id = serial.id;
+            if (typeof serial.serial_id != 'undefined' && serial.serial_id != null) { 
+              tmp_serial_id = serial.serial_id;
             }
-          } 
+            if (typeof $scope.damages['serial'][tmp_serial_id] == 'undefined' || typeof $scope.damages['serial'][tmp_serial_id]['damages'] == 'undefined') {
+              $scope.damages['serial'][tmp_serial_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+            }
+            $scope.serials[serial.id] = serial;
+            tmp_serial_id = null;
+          }  
         });
 
         angular.forEach($scope.get_damages,function(damage,key){
-          if (typeof damage.serial_id != 'undefined' ) { 
-            if (typeof $scope.damages['serial'][damage.serial_id] == 'undefined' || typeof $scope.damages['serial'][damage.serial_id]['damages'] == 'undefined') {
-              $scope.damages['serial'][damage.serial_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+          if (typeof damage.serial_id != 'undefined' && damage.serial_id != null) { 
+            tmp_damage_serial_id = damage.serial_id;
+            if (typeof $scope.serials[damage.serial_id].serial_id != 'undefined' && $scope.serials[damage.serial_id].serial_id != null) { 
+              tmp_damage_serial_id = $scope.serials[damage.serial_id].serial_id;
+              console.log('presenting damages for ' + damage.serial_id + ' under ' + tmp_damage_serial_id);
             }
-            $scope.damages['serial'][damage.serial_id]['damages'].push(damage);
-            $scope.damages['serial'][damage.serial_id]['types'][damage.type] = 'label-success';
+            if (typeof $scope.damages['serial'][tmp_damage_serial_id] == 'undefined' || typeof $scope.damages['serial'][tmp_damage_serial_id]['damages'] == 'undefined') {
+              $scope.damages['serial'][tmp_damage_serial_id] = { 'damages': [], 'types': { 1: 'label-default', 2: 'label-default', 3: 'label-default' }} ;
+            }
+            damage.serial_id = tmp_damage_serial_id;
+            $scope.damages['serial'][tmp_damage_serial_id]['damages'].push(damage);
+            $scope.damages['serial'][tmp_damage_serial_id]['types'][damage.type] = 'label-success';
+            tmp_damage_serial_id = null;
           } 
           if (typeof damage.container_id != 'undefined' ) { 
             if (typeof $scope.damages['container'][damage.container_id] == 'undefined' || typeof $scope.damages['container'][damage.container_id]['damages'] == 'undefined') {
@@ -119,7 +133,6 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
             $scope.damages['container'][damage.container_id]['types'][damage.type] = 'label-success';
           }
         });
-      console.log($scope.damages);
     });
   });
 

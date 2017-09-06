@@ -18,6 +18,7 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 }
+echoDebug("damage::pre_upload", $_POST, 5);
 if (file_exists($target_file)) {
     echoError("upload::file_exists", "True");
     $uploadOk = 0;
@@ -46,8 +47,7 @@ if ($uploadok == 1) {
   set_damage_enabled($damage_id);
   if ($_POST['serial_id'] > 0) { 
     $url="/damage.html?serial_id=$_POST[serial_id]";
-  } 
-  if ($_POST['container_id'] > 0) { 
+  } elseif ($_POST['container_id'] > 0) { 
     $url="/damage.html?container_id=$_POST[container_id]";
   } 
   redirect($url);

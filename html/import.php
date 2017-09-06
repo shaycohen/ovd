@@ -137,9 +137,8 @@ foreach ($exch as $warehouse => $containers) {
         continue;
       }
       echo "replace ".$serial['old']." with " . $serial['new'] ."\n";
-      $result = db_query("UPDATE damage SET serial_id=:new_serial_id WHERE serial_id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
-      echo "updateing existing serial";
-      $result = db_query("DELETE FROM serial WHERE id=:old_serial_id", array(":old_serial_id" => $old_serial_id['id']))['fetch'];
+      $result = db_query("UPDATE serial SET serial_id=:new_serial_id WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
+      $result = db_query("UPDATE serial SET status=0 WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
     }
   }
 }
