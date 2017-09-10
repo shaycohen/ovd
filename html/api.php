@@ -14,6 +14,15 @@ if (isset($_GET['action'])) {
     echo json_encode(get_warehouse());
   }
 
+  if ($_GET['action'] == 'set_selected') {
+    $postdata = file_get_contents("php://input");
+    $data = json_decode($postdata);
+    $_SESSION['selectedWarehouse'] = $data->selectedWarehouse;
+    $_SESSION['selectedContainer'] = $data->selectedContainer;
+    $_SESSION['selectedSerial'] = $data->selectedSerial;
+    echo json_encode($_SESSION);
+ }
+
   if ($_GET['action'] == 'get_user') {
     echo json_encode($_SESSION);
   }

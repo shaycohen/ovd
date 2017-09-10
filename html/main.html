@@ -9,6 +9,7 @@
     <script src="/ext/ui-bootstrap-tpls-2.5.0.js"></script>
     <script src="/ext/jquery.min.js"></script>
     <script src="/ext/bootstrap.min.js"></script>
+    <script src="/ext/lodash.js"></script>
     <script src="/main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style.css">
@@ -28,14 +29,18 @@
   <div class="container">
     <div class="row"> <div class="col col-sm-offset-2"><h2>{{ui.selectWarehouse}}</h></div> </div>
     <div class="row"> <div class="col">
-       &nbsp;&nbsp;<select ng-model="selectedWarehouse" ng-style="{'width': '50%'}" ng-options="w.id as w.description for w in warehouse" ng-init="selectedWarehouse=get_warehouse_id">
-        </select>
+      &nbsp;&nbsp;
+      <select ng-model="selectedWarehouse" ng-style="{'width': '50%'}" ng-options="w.id as w.description for w in warehouse" ng-init="selectedWarehouse=get_warehouse_id">
+      </select>
     </div></div>
     <div class="row"> <div class="col col-sm-offset-2"><h2>{{ ui.selectContainer }}</h></div> </div>
     <div class="row"> <div class="col">
-      &nbsp;&nbsp;<select ng-model="selectedContainer" ng-disabled="!selectedWarehouse" ng-style="{'width': '50%'}">
-        <option ng-repeat="c in containers | filter : { warehouse_id:selectedWarehouse } : true" ng-value="c">{{c.description | limitTo: 100:7}}</option>
+      &nbsp;&nbsp;
+      <select ng-model="tmp_selectedContainer" ng-style="{'width': '50%'}" ng-options="c.id as c.description for c in containers | filter:{ warehouse_id : selectedWarehouse }" ng-init="tmp_selectedContainer=get_container_id">
+      <!--select ng-model="selectedContainer" ng-disabled="!selectedWarehouse" ng-style="{'width': '50%'}" ng-change="">
+        <option ng-repeat="selectedContainer in containers | filter : { warehouse_id:selectedWarehouse } : true" ng-value="selectedContainer" ng-selected="selectedContainer.id == 3391">{{selectedContainer.description | limitTo: 100:7}}</option -->
       </select>
+      <span ng-show="false">{{selectedContainer = getContainerById(tmp_selectedContainer)}}a</span>
     <br><br>
     </div></div>
   </div>
@@ -62,7 +67,7 @@
           </td><td>
             <small><a href="/damage.html?serial_id={{ m.id }}&container_id={{selectedContainer.id}}&warehouse_id={{selectedWarehouse}}">{{ m.number}}</a></small>
           </td></tr><tr><td colspan=2>
-            <h4>{{ m.description }}</h4>
+            <h4><span ng-click="setSelected()"> {{ m.description }}</span></h4>
           </td></tr></table>
           <BR>
         </div>

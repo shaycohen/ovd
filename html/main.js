@@ -140,6 +140,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
 
   $scope.getContainerById = function(id=$scope.get_container_id) {
     var intId = parseInt(id);
+    console.log("getContainerById " + id);
     return $scope._.find($scope.containers, {id: intId});
   }
   $scope.getSerialById = function(id=$scope.get_serial_id) {
@@ -157,9 +158,20 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     $http.get("api.php?action=set_serial_status&id=" + id + "&stat=" + stat)
     .then(function(response) {
         console.log(response.data);
-        var url = $window.location.protocol + "//" + $window.location.host + "/main.html";
+        var url = $window.location.protocol + "//" + $window.location.host + "/main.html" + $window.location.search;
         $window.location.href = url;
     });
   }
+
+  $scope.setSelected = function() {
+    var data = JSON.stringify({
+      'selectedWarehouse': $scope.selectedWarehouse.id,
+      'selectedContainer': $scope.selectedContainer.id
+    });
+    console.log(data);
+    $http.post("/api.php?action=set_selected", data).then(function(data, status) {
+      console.log(data);
+    })
+  }                   
 
 });

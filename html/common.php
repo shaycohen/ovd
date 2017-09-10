@@ -191,8 +191,7 @@ function get_serials() {
 function set_damage() { 
   if ($_POST['serial_id'] > 0) { 
     $result = db_query("INSERT INTO damage (serial_id, type, description) values(:serial_id, :type, :description);", array('serial_id' => $_POST['serial_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
-  }
-  if ($_POST['container_id'] > 0) { 
+  } elseif ($_POST['container_id'] > 0) { 
     $result = db_query("INSERT INTO damage (container_id, type, description) values(:container_id, :type, :description);", array('container_id' => $_POST['container_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
   }
   echoDebug("common::set_damage", $result, 0);

@@ -14,11 +14,12 @@
 </head>
 <body>
 <div ng-controller="mainCtrl">
-  <form class="form-group" action="upload.php" method="post" enctype="multipart/form-data" id="upload_form" name="upload_form">
-    <input type=hidden name="serial_id" id="serial_id" value=" {{ get_serial_id }}" ng-if="get_serial_id > 0">
-    <input type=hidden name="container_id" id="container_id" value=" {{ get_container_id }}" ng-if="get_container_id > 0">
+  <form class="form-group" action="upload.php?debug_level=0" method="post" enctype="multipart/form-data" id="upload_form" name="upload_form">
+    <input type=hidden name="serial_id" id="serial_id" value="{{ get_serial_id }}" ng-if="get_serial_id > 0">
+    <input type=hidden name="container_id" id="container_id" value="{{ get_container_id }}" ng-if="get_container_id > 0">
+    <input type=hidden name="warehouse_id" id="warehouse_id" value="{{ get_warehouse_id }}" ng-if="get_warehouse_id > 0">
     <input type=hidden name="description" id="description" value="">
-    <input type=hidden name="type" id="type" value=" {{ get_damage_type }}">
+    <input type=hidden name="type" id="type" value="{{ get_damage_type }}">
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">
         <input type="file" name="fileToUpload" id="fileToUpload" class="inputfile" onchange="document.getElementById('upload_form').submit()">

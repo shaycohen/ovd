@@ -46,9 +46,9 @@ if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
 if ($uploadok == 1) { 
   set_damage_enabled($damage_id);
   if ($_POST['serial_id'] > 0) { 
-    $url="/damage.html?serial_id=$_POST[serial_id]";
+    $url="/damage.html?serial_id=$_POST[serial_id]&container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
   } elseif ($_POST['container_id'] > 0) { 
-    $url="/damage.html?container_id=$_POST[container_id]";
+    $url="/damage.html?container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
   } 
   redirect($url);
 }
