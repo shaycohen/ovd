@@ -16,8 +16,8 @@
 </head>
 <body>
 <div ng-controller="mainCtrl" dir=rtl>
-<a href="/main.html?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}"><img src='images/home.gif' width=60></a>
   <div class="container" ng-if="get_serial_id > 0">
+    <a href="/main.html?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></a>
     <div class="row"> <div class="col col-sm-offset-1"><h1><i> {{getSerialById().number}}<BR>{{getContainerBySerialId().description | limitTo: 100:7 }}<BR>{{getSerialById().description}} </i></h></div></div>
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}}</div></div>
     <table><tr>
