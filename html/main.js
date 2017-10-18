@@ -113,7 +113,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
         angular.forEach($scope.get_damages,function(damage,key){
           if (typeof damage.serial_id != 'undefined' && damage.serial_id != null) { 
             tmp_damage_serial_id = damage.serial_id;
-            if (typeof $scope.serials[damage.serial_id].serial_id != 'undefined' && $scope.serials[damage.serial_id].serial_id != null) { 
+            if (typeof $scope.serials[damage.serial_id] != 'undefined' && typeof $scope.serials[damage.serial_id].serial_id != 'undefined' && $scope.serials[damage.serial_id].serial_id != null) { 
               tmp_damage_serial_id = $scope.serials[damage.serial_id].serial_id;
               console.log('presenting damages for ' + damage.serial_id + ' under ' + tmp_damage_serial_id);
             }
@@ -158,7 +158,7 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     $http.get("api.php?action=set_serial_status&id=" + id + "&stat=" + stat)
     .then(function(response) {
         console.log(response.data);
-        var url = $window.location.protocol + "//" + $window.location.host + "/main.html" + $window.location.search;
+        var url = $window.location.protocol + "//" + $window.location.host + "/main.php" + $window.location.search;
         $window.location.href = url;
     });
   }

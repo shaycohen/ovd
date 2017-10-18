@@ -1,57 +1,57 @@
 <?php
-
 if ((include 'common.php') != TRUE ) {
 	echo "\necho 'Error with loading common functions file'";
 	return false;
 }
+check_login();
+?>
+<!doctype html>
+<html ng-app="ui.bootstrap.ovd">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta meta charset=utf-8>
+  <script src="/ext/angular.js"></script>
+  <script src="/ext/angular-animate.js"></script>
+  <script src="/ext/angular-sanitize.js"></script>
+  <script src="/ext/ui-bootstrap-tpls-2.5.0.js"></script>
+  <script src="/ext/jquery.min.js"></script>
+  <script src="/ext/bootstrap.min.js"></script>
+  <script src="/ext/lodash.js"></script>
+  <script src="main.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div ng-controller="mainCtrl">
+    <!--div class="col col-sm-offset-1" dir="ltr">
+      {{getContainerBySerialId().description }}{{getSerialById().number}}
+    </div-->
+  <form class="form-group" action="upload_be.php?debug_level=0" method="post" enctype="multipart/form-data" id="upload_form" name="upload_form">
+    <input type=hidden name="serial_id" id="serial_id" value="{{ get_serial_id }}" ng-if="get_serial_id > 0">
+    <input type=hidden name="container_id" id="container_id" value="{{ get_container_id }}" ng-if="get_container_id > 0">
+    <input type=hidden name="warehouse_id" id="warehouse_id" value="{{ get_warehouse_id }}" ng-if="get_warehouse_id > 0">
+    <input type=hidden name="description" id="description" value="">
+    <input type=hidden name="type" id="type" value="{{ get_damage_type }}">
+    <input type=hidden name="file_name" id="file_name" value="{{getContainerBySerialId().description}}{{getSerialById().number}}">
+    <div class="input-group">
 
-$damage_id = set_damage();
-$target_dir = "/var/www/html/damages/";
-$target_file = $target_dir . $damage_id . '.jpg';
-$target_thumb = $target_dir . $damage_id . '_thumb.jpg';
-$uploadOk = 1;
-$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check == false) {
-        echoError("upload::getimagesize", "False");
-        $uploadOk = 0;
-    }
-}
-echoDebug("damage::pre_upload", $_POST, 5);
-if (file_exists($target_file)) {
-    echoError("upload::file_exists", "True");
-    $uploadOk = 0;
-}
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echoError("upload", "File format is not supported");
-    $uploadOk = 0;
-}
-
-if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
-  $convert_to_thumb = "convert -thumbnail 200 $target_file $target_thumb 2>&1";
-  $output = system($convert_to_thumb, $retval);
-  if ($retval > 0) { 
-    echoError("upload::create_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
-    $uploadok = 0;
-  } else { 
-    $uploadok = 1;
-  } 
-} else {
-  echoError("upload::move_uploaded_file", "Failed");
-  $uploadok = 0;
-}
-
-if ($uploadok == 1) { 
-  set_damage_enabled($damage_id);
-  if ($_POST['serial_id'] > 0) { 
-    $url="/damage.html?serial_id=$_POST[serial_id]&container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
-  } elseif ($_POST['container_id'] > 0) { 
-    $url="/damage.html?container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
-  } 
-  redirect($url);
-}
-
-echoDebug("damage::post_upload", $_FILES, 5);
-
+      <span class="input-group-addon" id="basic-addon1">
+        <input type="file" name="fileToUpload" id="fileToUpload" class="inputfile" onchange="document.getElementById('upload_form').submit()">
+          <img src="images/loading.gif" height=60px ng-if="!getContainerBySerialId()">
+        <label for="fileToUpload">
+          <button class="btn btn-lg btn-info btn-block" ng-if="getContainerBySerialId()" type="submit" name="image_submit">
+            {{ ui.takePhoto }} &nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-picture" ng-if="fileToUpload"></span>
+          </button>
+        </label>
+      </span>
+    </div>
+<!--    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-list"></span></span>
+      <input type="text" class="form-control" placeholder="{{ui.notes}}" aria-describedby="basic-addon1" name="description" id="description" ng-style="{'width': '100%'}">
+    </div>
+    <button class="btn btn-lg btn-success btn-block" type="submit" name="form_submit">{{ ui.submit }}</button>
+-->
+  </form>
+</div>
+</body> </html>

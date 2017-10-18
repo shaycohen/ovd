@@ -78,8 +78,10 @@ docker run -d \
 	-v /vagrant/html:/var/www/html \
 	-p 0.0.0.0:80:80 -p 443:443 \
 	$PHP_IMG
-docker exec $NAME-httpd sh -c 'exec docker-php-ext-install pdo pdo_mysql'
-docker exec $NAME-httpd sh -c 'exec apache2ctl -k restart'
 docker exec $NAME-httpd sh -c 'exec apt-get update'
-docker exec $NAME-httpd sh -c 'exec apt-get install -y imagemagick'
+docker exec $NAME-httpd sh -c 'exec apt-get install -y imagemagick apt-get install libldb-dev libldap2-dev'
+docker exec $NAME-httpd sh -c 'exec ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so'
+docker exec $NAME-httpd sh -c 'exec ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so'
+docker exec $NAME-httpd sh -c 'exec docker-php-ext-install pdo pdo_mysql ldap'
+docker exec $NAME-httpd sh -c 'exec apache2ctl -k restart'
 true

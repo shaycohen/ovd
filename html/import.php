@@ -123,22 +123,26 @@ foreach ($exch as $warehouse => $containers) {
       echoError('import::exch_no_such_container', $container, 1);
       continue;
     }
-    $container_id = $container_id['id'];
     foreach ($serials as $serial) {
-      $old_serial_id = db_query("SELECT * FROM serial where number=:old and container_id=:container", array(":old" => $serial['old'], ":container" => $container_id))['fetch'];
+      $old_serial_id = db_query("SELECT * FROM serial where number=:old and container_id=:container", array(":old" => $serial['old'], ":container" => $container['id']))['fetch'];
       if ($old_serial_id == false) { 
-        echoError('import::exch_no_such_serial_in_container', 'serial_old => ' . $serial['old'] . ' , container_id => ' .$container_id, 1);
+        echoError('import::exch_no_such_serial_in_container', 'serial_old => ' . $serial['old'] . ' , container_id => ' .$container['id'], 1);
         continue;
       }
-      $new_serial_id = db_query("SELECT * FROM serial where number=:new and container_id=:container", array(":new" => $serial['new'], ":container" => $container_id))['fetch'];
+      $new_serial_id = db_query("SELECT * FROM serial where number=:new and container_id=:container", array(":new" => $serial['new'], ":container" => $container['id']))['fetch'];
       if ($new_serial_id == false) { 
-        echoError('import::exch_no_such_serial_in_container', array('serial.new' => $serial['new'], 'container_id' => $container_id), 1);
+        echoError('import::exch_no_such_serial_in_container', array('serial.new' => $serial['new'], 'container_id' => $container['id']), 1);
         #echo "aa ". $serial['new'] . " aa\n";
         continue;
       }
       echo "replace ".$serial['old']." with " . $serial['new'] ."\n";
       $result = db_query("UPDATE serial SET serial_id=:new_serial_id WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
-      $result = db_query("UPDATE serial SET status=0 WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
+      $result = db_query("UPDATE serial SET status=0 WHERE id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']))['fetch'];
+      $damages = db_query("SELECT * FROM damages WHERE id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']))['fetch'];
+      foreach ($damages as $damage) {
+        $result = db_query("UPDATE damage SET file_name=:file_name WHERE id=:damage_id", array("damage_id" => $damage['id'], "file_name" => $new_serial_id['number'].$container['description']))['fetch'];
+        
+      }
     }
   }
 }

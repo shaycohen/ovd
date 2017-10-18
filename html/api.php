@@ -4,6 +4,7 @@ if ((require_once 'common.php') != TRUE ) {
 	echo "\necho 'Error with loading common functions file'";
 	return false;
 }
+if (!check_login(FALSE)) exit();
 
 if (isset($_GET['action'])) { 
   if ($_GET['action'] == 'get_containers') {

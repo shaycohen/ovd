@@ -1,5 +1,6 @@
 <?php
 
+ini_set('memory_limit', '1024M');
 session_start();
 $br = "<BR>\n";
 global $br;
@@ -180,23 +181,35 @@ function get_warehouse($id = '') {
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
-function get_serials() { 
-  $result = db_query("SELECT * FROM serial;", array());
+function get_serials($all=true) { 
+  if ($all == false) { 
+    $result = db_query("SELECT * FROM serial where container_id in (select id from container where active=1);", array());
+  } else { 
+    $result = db_query("SELECT * FROM serial;", array());
+  }
   echoDebug("common::get_serials", $result, 0);
   $fetchAll=$result[stmt]->fetchAll();
   array_unshift($fetchAll, $result[fetch]);
   return $fetchAll;
 }
 
-function set_damage() { 
+function set_damage($damage_file_name) { 
+  if (strlen($damage_file_name) <= 0) { 
+    echoDebug("set_damage:damage_file_name", $damage_file_name, 1);
+    echoError("set_damage", "damage_file_name must be set when calling set_damae");
+    return false;
+  }
   if ($_POST['serial_id'] > 0) { 
-    $result = db_query("INSERT INTO damage (serial_id, type, description) values(:serial_id, :type, :description);", array('serial_id' => $_POST['serial_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+    $serial_id = $_POST['serial_id'];
+    $result = db_query("SELECT * FROM serial where id=:serial_id", array('serial_id' => $serial_id))['fetch'];
+    if ($result['serial_id'] != null) $serial_id = $result['serial_id'];
+    $result = db_query("INSERT INTO damage (serial_id, type, description, file_name) values(:serial_id, :type, :description, :file_name);", array('serial_id' => $serial_id, 'type' => $_POST['type'], 'description' => $_POST['description'], 'file_name' => $damage_file_name));
   } elseif ($_POST['container_id'] > 0) { 
-    $result = db_query("INSERT INTO damage (container_id, type, description) values(:container_id, :type, :description);", array('container_id' => $_POST['container_id'], 'type' => $_POST['type'], 'description' => $_POST['description']));
+    $result = db_query("INSERT INTO damage (container_id, type, description, file_name) values(:container_id, :type, :description, :file_name);", array('container_id' => $_POST['container_id'], 'type' => $_POST['type'], 'description' => $_POST['description'], 'file_name' => $damage_file_name));
   }
   echoDebug("common::set_damage", $result, 0);
-  $fetchAll=$result[stmt]->fetchAll();
-  array_unshift($fetchAll, $result[fetch]);
+  #$fetchAll=$result[stmt]->fetchAll();
+  #array_unshift($fetchAll, $result[fetch]);
   return $result['lastInsertId'];
 }
 
@@ -229,6 +242,28 @@ function redirect($url, $permanent = false)
 {
   header('Location: ' . $url, true, $permanent ? 301 : 302);
   exit();
+}
+
+function is_session_started()
+{
+    if ( php_sapi_name() !== 'cli' ) {
+        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+            return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+        } else {
+            return session_id() === '' ? FALSE : TRUE;
+        }
+    }
+    return FALSE;
+}
+
+function check_login($redirect = TRUE) {
+  if ((is_session_started() === FALSE) || (!isset($_SESSION['user']))) {
+    if ($redirect === TRUE) redirect('/index.php');
+    return false;
+    exit();
+  } else { 
+    return true;
+  }
 }
 
 $user = $_SESSION;
