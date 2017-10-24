@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.ovd">
+  <head><title>Welcome to OVD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta meta charset=utf-8>
+    <script src="/ext/angular.js"></script>
+    <script src="/ext/angular-animate.js"></script>
+    <script src="/ext/angular-sanitize.js"></script>
+    <script src="/ext/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="/ext/jquery.min.js"></script>
+    <script src="/ext/bootstrap.min.js"></script>
+    <script src="/ext/lodash.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+
+  </head>
+  <body>
+
+<div ng-controller="mainCtrl">
+<form class="form-group" method="POST" action="login.php">
+  <h2 class="form-group-heading">{{ ui.login }}</h2>
+  <div class="input-group">
+<span class="input-group-addon" id="basic-addon1">@</span>
+<input type="text" name="username" class="form-control" placeholder="Username" required>
+</div>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+  <button class="btn btn-lg btn-warning btn-block" ng-if="get_fmsg == 'invalid_credentials'">{{ ui.invalid_credentials }}</button>
+  
+</form>
+</body></html>

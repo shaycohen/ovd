@@ -13,7 +13,7 @@ if (strlen($_POST['file_name']) <= 0) {
 $damage_file_name = $_POST['file_name']; 
 
 $damage_id = set_damage($damage_file_name);
-$target_dir = "/var/www/html/damages/";
+$target_dir = "/DMG/";
 $target_file =  $target_dir . $damage_file_name . '-'. $damage_id . '.jpg';
 $target_thumb = $target_dir . $damage_file_name . '-'. $damage_id . '_thumb.jpg';
 $uploadOk = 1;

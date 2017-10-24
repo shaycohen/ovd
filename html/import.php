@@ -112,14 +112,15 @@ echoDebug('import::all_exch_records', $exch, 2);
 
 foreach ($exch as $warehouse => $containers) {
   $warehouse_id = db_query("SELECT * FROM warehouse where description like ?", array($warehouse))['fetch'];
+  echoDebug('import::exch_containers', $containers, 2);
   if ($warehouse_id == false) {
     echoError('import::exch_no_such_warehouse', $warehouse, 1);
     continue;
   }
   $warehouse_id = $warehouse_id['id'];
-  foreach ($containers as $container => $serials) {
-    $container_id = db_query("SELECT * FROM container where active=1 and description like ?", array($container))['fetch'];
-    if ($container_id == false) { 
+  foreach ($containers as $container_desc => $serials) {
+    $container = db_query("SELECT * FROM container where active=1 and description like ?", array($container_desc))['fetch'];
+    if ($container == false) { 
       echoError('import::exch_no_such_container', $container, 1);
       continue;
     }
@@ -131,20 +132,35 @@ foreach ($exch as $warehouse => $containers) {
       }
       $new_serial_id = db_query("SELECT * FROM serial where number=:new and container_id=:container", array(":new" => $serial['new'], ":container" => $container['id']))['fetch'];
       if ($new_serial_id == false) { 
-        echoError('import::exch_no_such_serial_in_container', array('serial.new' => $serial['new'], 'container_id' => $container['id']), 1);
-        #echo "aa ". $serial['new'] . " aa\n";
+        echoDebug('import::exch_no_such_serial_in_container', array('serial.new' => $serial['new'], 'container_id' => $container['id']), 1);
+        echo "EXCH creating serial container_id = ".$container['id']." warehouse_id = $warehouse_id\n";
+        $result = db_query ("INSERT INTO serial (number, description, container_id) VALUES(:number, :description, :container_id)", array(':number' => $serial['new'], ':description' => 'EXCH Auto Created by import.php', ':container_id' => $container['id']));
+        $new_serial_id = db_query("SELECT * FROM serial where number=?", array($serial['new']))['fetch'];
+        echo "New serial ID: " . $new_serial_id['id'] . " Number: " . $new_serial_id['number'] . "\n";
+      }
+      echo "EXCH replace ".$serial['old']." with " . $serial['new'] ."\n";
+      $result = db_query("UPDATE serial SET serial_id=:new_serial_id WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
+      $result = db_query("UPDATE serial SET status=1 WHERE id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']))['fetch'];
+
+      $result = db_query("SELECT * FROM damage WHERE serial_id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']));
+      $damages=$result[stmt]->fetchAll();
+      array_unshift($damages, $result[fetch]);
+      echoDebug('import::exch_damages', $damages, 2);
+      if ($damages == false) { 
         continue;
       }
-      echo "replace ".$serial['old']." with " . $serial['new'] ."\n";
-      $result = db_query("UPDATE serial SET serial_id=:new_serial_id WHERE id=:old_serial_id", array(":new_serial_id" => $new_serial_id['id'], "old_serial_id" => $old_serial_id['id']))['fetch'];
-      $result = db_query("UPDATE serial SET status=0 WHERE id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']))['fetch'];
-      $damages = db_query("SELECT * FROM damages WHERE id=:old_serial_id", array("old_serial_id" => $old_serial_id['id']))['fetch'];
       foreach ($damages as $damage) {
-        $result = db_query("UPDATE damage SET file_name=:file_name WHERE id=:damage_id", array("damage_id" => $damage['id'], "file_name" => $new_serial_id['number'].$container['description']))['fetch'];
-        
+        echoDebug('import::exch_damage_in_damages', $damage, 3);
+        echoDebug('import::exch_attribute_in_damages', $damage, 3);
+        $new_file_name = $new_serial_id['number'].$container['description'];
+	$old_file_name = $damage['file_name'];
+        $result = db_query("UPDATE damage SET file_name=:file_name WHERE id=:damage_id", array("damage_id" => $damage['id'], "file_name" => $new_file_name))['fetch'];
+        rename('/DMG/'.$old_file_name.'-'.$damage['id'].'.jpg', '/DMG/'.$new_file_name.'-'.$damage['id'].'.jpg');
+        rename('/DMG/'.$old_file_name.'-'.$damage['id'].'_thumb.jpg', '/DMG/'.$new_file_name.'-'.$damage['id'].'_thumb.jpg');
       }
     }
   }
 }
+
 
 ?>

@@ -49,7 +49,7 @@ if (isset($_POST['submit']))
             $base_dn = array(
                 "OU=Ashdod Users,OU=Ashdod,DC=". join(',DC=', explode('.', DOMAIN_FQDN)),
                 "CN=Users,DC=". join(',DC=', explode('.', DOMAIN_FQDN)), 
-                "OU=Users,OU=People,DC=". join(',DC=', explode('.', DOMAIN_FQDN)),
+                "OU=DMG,DC=". join(',DC=', explode('.', DOMAIN_FQDN)),
                 "OU=Haifa Users,OU=Haifa,DC=". join(',DC=', explode('.', DOMAIN_FQDN)),
                 "OU=Test,DC=". join(',DC=', explode('.', DOMAIN_FQDN)),
                 "OU=Natbag Users,OU=Natbag,DC=". join(',DC=', explode('.', DOMAIN_FQDN))

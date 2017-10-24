@@ -63,10 +63,10 @@ docker run --name $NAME-myadmin -d --link $NAME-db:db -p 0.0.0.0:8080:80 $MYADMI
 	docker run --rm --link $NAME-db:db $MYSQL_IMG \
 		sh -c 'exec echo "CREATE DATABASE '$NAME'" |  mysql -h"$DB_PORT_3306_TCP_ADDR" -P"$DB_PORT_3306_TCP_PORT" -uroot -p"$DB_ENV_MYSQL_ROOT_PASSWORD" mysql' || exit $?
 
-docker run --rm \
-	-v /vagrant/sql_seed/:/tmp/sql_seed \
-	--link $NAME-db:db $MYSQL_IMG \
-	sh -c 'exec mysql -h"$DB_PORT_3306_TCP_ADDR" -P"$DB_PORT_3306_TCP_PORT" -uroot -p"$DB_ENV_MYSQL_ROOT_PASSWORD" '$NAME' < /tmp/sql_seed/'$NAME'.seed.sql' || exit $?
+#docker run --rm \
+#	-v /vagrant/sql_seed/:/tmp/sql_seed \
+#	--link $NAME-db:db $MYSQL_IMG \
+#	sh -c 'exec mysql -h"$DB_PORT_3306_TCP_ADDR" -P"$DB_PORT_3306_TCP_PORT" -uroot -p"$DB_ENV_MYSQL_ROOT_PASSWORD" '$NAME' < /tmp/sql_seed/'$NAME'.seed.sql' || exit $?
 
 docker run -d \
 	--name=$NAME-httpd \
@@ -76,10 +76,11 @@ docker run -d \
 	-e "DBUSER=$DBUSER" \
 	-e "DBPASS=$DBPASS" \
 	-v /vagrant/html:/var/www/html \
+	-v /DMG:/DMG \
 	-p 0.0.0.0:80:80 -p 443:443 \
 	$PHP_IMG
 docker exec $NAME-httpd sh -c 'exec apt-get update'
-docker exec $NAME-httpd sh -c 'exec apt-get install -y imagemagick apt-get install libldb-dev libldap2-dev'
+docker exec $NAME-httpd sh -c 'exec apt-get install -y imagemagick libldb-dev libldap2-dev'
 docker exec $NAME-httpd sh -c 'exec ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so'
 docker exec $NAME-httpd sh -c 'exec ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so'
 docker exec $NAME-httpd sh -c 'exec docker-php-ext-install pdo pdo_mysql ldap'
