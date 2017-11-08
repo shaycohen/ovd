@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "[$(date)] Starting $0"
 
 TIMESTAMP=$(date +%s)

@@ -2,7 +2,7 @@ angular.module('ui.bootstrap.ovd', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $http, $location, $window) {
   $scope._ = window._;
   $scope.$location = $location;
-  console.log($location.absUrl());
+  //console.log($location.absUrl());
   $scope.getUrlParam = function getUrlParam(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
       sURLVariables = sPageURL.split('&'),
@@ -18,35 +18,44 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
     }
   };
 
+  if ( ($location.absUrl().indexOf('showClosed') > -1) && 
+       ($scope.getUrlParam('showClosed') == "true" || 
+         parseInt($scope.getUrlParam('showClosed')) == 1 ) ) { 
+    $scope.get_showClosed = true;
+  } else { 
+    $scope.get_showClosed = false;
+  }
+  console.log("showClosed: " + $scope.get_showClosed);
+ 
   if($location.absUrl().indexOf('fmsg') > -1){    
     $scope.get_fmsg = $scope.getUrlParam('fmsg');
-    console.log("fmsg: " + $scope.get_fmsg);
+    //console.log("fmsg: " + $scope.get_fmsg);
   } else { 
     $scope.get_fmsg = 0;
   }
  
   if($location.absUrl().indexOf('warehouse_id') > -1){    
     $scope.get_warehouse_id = parseInt($scope.getUrlParam('warehouse_id'));
-    console.log("warehouse_id: " + $scope.get_warehouse_id);
+    //console.log("warehouse_id: " + $scope.get_warehouse_id);
   }
    if($location.absUrl().indexOf('container_id') > -1){    
     $scope.get_container_id = parseInt($scope.getUrlParam('container_id'));
-    console.log("container_id: " + $scope.get_container_id);
+    //console.log("container_id: " + $scope.get_container_id);
   }
   if($location.absUrl().indexOf('serial_id') > -1){    
     $scope.get_serial_id = parseInt($scope.getUrlParam('serial_id'));
-    console.log("serial_id: " + $scope.get_serial_id);
+    //console.log("serial_id: " + $scope.get_serial_id);
   }
   if($location.absUrl().indexOf('type') > -1){    
     $scope.get_damage_type = $scope.getUrlParam('damage_type');
-    console.log("damage_type: " + $scope.get_damage_type);
+    //console.log("damage_type: " + $scope.get_damage_type);
   }
   $scope.oneAtATime = true;
   $scope.ui = {
     'selectContainer': "מכולה",
     'selectWarehouse': "מחסן",
     'selectSerial': "סידורי",
-    'takePhoto': "שלח תמונה",
+    'takePhoto': "צלם תמונה",
     'internalDamage': "תמונות נזק בתוך המכולה",
     'externalDamage': "תמונות נזק מחוץ למכולה",
     'labeledDamage': "תמונות נזק עם מדבקת ברקוד",
@@ -140,24 +149,34 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
 
   $scope.getContainerById = function(id=$scope.get_container_id) {
     var intId = parseInt(id);
-    console.log("getContainerById " + id);
+    //console.log("getContainerById " + id);
+    //console.log("getContainerById return " + $scope._.find($scope.containers, {id: intId}) );
     return $scope._.find($scope.containers, {id: intId});
   }
   $scope.getSerialById = function(id=$scope.get_serial_id) {
     var intId = parseInt(id);
+    //console.log("getSerialById " + id);
+    //console.log("getSerialById return " +  $scope._.find($scope.serials, {id: intId}) );
     return $scope._.find($scope.serials, {id: intId});
   }
   $scope.getContainerBySerialId = function(id=$scope.get_serial_id) {
+    //console.log("getContainerBySerialId " + id);
     var intId = parseInt(id);
     var containerId = $scope.getSerialById(intId);
     if (typeof containerId != 'undefined') { 
+      //console.log(containerId.container_id);
+      //console.log($scope.containers);
+      //console.log("getContainerBySerialId return " + $scope._.find($scope.containers, {id: parseInt(containerId.container_id)}) );
       return $scope._.find($scope.containers, {id: parseInt(containerId.container_id)});
+    } else { 
+      //console.log( "false" );
+      return false;
     }
   }
   $scope.setSerialStatus = function(stat, id=$scope.get_serial_id) { 
     $http.get("api.php?action=set_serial_status&id=" + id + "&stat=" + stat)
     .then(function(response) {
-        console.log(response.data);
+        //console.log(response.data);
         var url = $window.location.protocol + "//" + $window.location.host + "/main.php" + $window.location.search;
         $window.location.href = url;
     });
@@ -168,9 +187,9 @@ angular.module('ui.bootstrap.ovd').controller('mainCtrl', function ($scope, $htt
       'selectedWarehouse': $scope.selectedWarehouse.id,
       'selectedContainer': $scope.selectedContainer.id
     });
-    console.log(data);
+    //console.log(data);
     $http.post("/api.php?action=set_selected", data).then(function(data, status) {
-      console.log(data);
+      //console.log(data);
     })
   }                   
 

@@ -162,7 +162,7 @@ ALTER TABLE `serial`
 ALTER TABLE `damage`
   ADD CONSTRAINT `damage_serial_id` FOREIGN KEY (`serial_id`) REFERENCES `serial` (`id`);
 ALTER TABLE `damage`
-  ADD CONSTRAINT `damage_container_id` FOREIGN KEY (`container_id`) REFERENCES `serial` (`id`);
+  ADD CONSTRAINT `damage_container_id` FOREIGN KEY (`container_id`) REFERENCES `container` (`id`);
 
 --
 -- Constraints for table `user`

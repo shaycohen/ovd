@@ -53,12 +53,12 @@ foreach ($tally as $warehouse => $containers) {
   }
   $warehouse_id = $warehouse_id['id'];
   foreach ($containers as $container => $serials) {
-    $update_container_loc = db_query("UPDATE container SET warehouse_id=:warehouse_id where active=1 and description like :container", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
-    $container_id = db_query("SELECT * FROM container where active=1 and description like :container AND warehouse_id=:warehouse_id", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
+    $update_container_loc = db_query("UPDATE container SET warehouse_id=:warehouse_id where description like :container", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
+    $container_id = db_query("SELECT * FROM container where description like :container AND warehouse_id=:warehouse_id", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
     if ($container_id == false) { 
       echo "creating container";
       $result = db_query ("INSERT INTO container (description, warehouse_id) VALUES(:description, :warehouse_id)", array(':description' => $container, ':warehouse_id' => $warehouse_id));
-      $container_id = db_query("SELECT * FROM container where active=1 and description like :container AND warehouse_id=:warehouse_id", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
+      $container_id = db_query("SELECT * FROM container where description like :container AND warehouse_id=:warehouse_id", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
     }
     $container_id = $container_id['id'];
     foreach ($serials as $serial) {
@@ -119,7 +119,7 @@ foreach ($exch as $warehouse => $containers) {
   }
   $warehouse_id = $warehouse_id['id'];
   foreach ($containers as $container_desc => $serials) {
-    $container = db_query("SELECT * FROM container where active=1 and description like ?", array($container_desc))['fetch'];
+    $container = db_query("SELECT * FROM container where description like ?", array($container_desc))['fetch'];
     if ($container == false) { 
       echoError('import::exch_no_such_container', $container, 1);
       continue;
@@ -152,7 +152,7 @@ foreach ($exch as $warehouse => $containers) {
       foreach ($damages as $damage) {
         echoDebug('import::exch_damage_in_damages', $damage, 3);
         echoDebug('import::exch_attribute_in_damages', $damage, 3);
-        $new_file_name = $new_serial_id['number'].$container['description'];
+        $new_file_name = $container['description'].$new_serial_id['number'];
 	$old_file_name = $damage['file_name'];
         $result = db_query("UPDATE damage SET file_name=:file_name WHERE id=:damage_id", array("damage_id" => $damage['id'], "file_name" => $new_file_name))['fetch'];
         rename('/DMG/'.$old_file_name.'-'.$damage['id'].'.jpg', '/DMG/'.$new_file_name.'-'.$damage['id'].'.jpg');

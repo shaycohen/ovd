@@ -13,6 +13,7 @@ if (strlen($_POST['file_name']) <= 0) {
 $damage_file_name = $_POST['file_name']; 
 
 $damage_id = set_damage($damage_file_name);
+$target_res = "640x480";
 $target_dir = "/DMG/";
 $target_file =  $target_dir . $damage_file_name . '-'. $damage_id . '.jpg';
 $target_thumb = $target_dir . $damage_file_name . '-'. $damage_id . '_thumb.jpg';
@@ -40,10 +41,17 @@ if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
   $convert_to_thumb = "convert -thumbnail 200 $target_file $target_thumb 2>&1";
   $output = system($convert_to_thumb, $retval);
   if ($retval > 0) { 
-    echoError("upload::create_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
+    echoError("upload::convert_thumbnail", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_to_thumb . "]");
     $uploadok = 0;
   } else { 
-    $uploadok = 1;
+    $convert_resize = "convert -resize $target_res $target_file $target_file 2>&1";
+    $output = system($convert_resize, $retval);
+    if ($retval > 0) { 
+      echoError("upload::convert_resize", "output [" . $output . "] retval [" . $retval ."] cmd[" . $convert_resize . "]");
+      $uploadok = 0;
+    } else { 
+      $uploadok = 1;
+    }
   } 
 } else {
   echoError("upload::move_uploaded_file", "Failed");
@@ -53,9 +61,9 @@ if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
 if ($uploadok == 1) { 
   set_damage_enabled($damage_id);
   if ($_POST['serial_id'] > 0) { 
-    $url="/damage.php?serial_id=$_POST[serial_id]&container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
+    $url="/damage.php?serial_id=$_POST[serial_id]&container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]&showClosed=$_POST[showClosed]";
   } elseif ($_POST['container_id'] > 0) { 
-    $url="/damage.php?container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]";
+    $url="/damage.php?container_id=$_POST[container_id]&warehouse_id=$_POST[warehouse_id]&showClosed=$_POST[showClosed]";
   } 
   redirect($url);
 }

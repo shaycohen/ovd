@@ -24,11 +24,11 @@ check_login();
 <body>
 <div ng-controller="mainCtrl" dir=rtl>
   <div class="container" ng-if="get_serial_id > 0">
-    <a href="/main.php?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    <a href="/main.php?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}&showClosed={{get_showClosed}}" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></a>
     <div class="row"> <div class="col col-sm-offset-1"><h1><i> {{getSerialById().number}}<BR>{{getContainerBySerialId().description | limitTo: 100:7 }}<BR>{{getSerialById().description}} </i></h></div></div>
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}}</div></div>
     <table><tr>
-    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=1"><img src=images/add_photo.png></a></td>
+    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=1&showClosed={{get_showClosed}}"><img src=images/add_photo.png></a></td>
     <td ng-repeat="d in get_damages" ng-if="d.serial_id==get_serial_id && d.type==1">
       <img src="/damages/{{ d.id }}_thumb.jpg" width=50%> 
       <img src="/damages/{{ d.file_name}}-{{ d.id }}_thumb.jpg" width=50%> <br>
@@ -37,7 +37,7 @@ check_login();
     </td></tr></table>
     <div class="row"> <div class="col"><h2>{{ui.externalDamage}}</div></div>
     <table><tr>
-    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=2"><img src=images/add_photo.png></a></td>
+    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=2&showClosed={{get_showClosed}}"><img src=images/add_photo.png></a></td>
     <td ng-repeat="d in get_damages" ng-if="d.serial_id==get_serial_id && d.type==2">
       <BR>
       <img src="/damages/{{ d.id }}_thumb.jpg" width=50%> <BR>
@@ -46,7 +46,7 @@ check_login();
     </td></tr></table>
     <div class="row"> <div class="col"><h2>{{ui.labeledDamage}}</div></div>
     <table><tr>
-    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=3"><img src=images/add_photo.png></a></td>
+    <td><BR><a href="/upload.php?serial_id={{ get_serial_id }}&container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=3&showClosed={{get_showClosed}}"><img src=images/add_photo.png></a></td>
     <td ng-repeat="d in get_damages" ng-if="d.serial_id==get_serial_id && d.type==3">
       <BR>
       <img src="/damages/{{ d.id }}_thumb.jpg" width=50%> <br>
@@ -56,10 +56,11 @@ check_login();
       <BR>
   </div>
   <div class="container" ng-if="! get_serial_id > 0">
+    <a href="/main.php?warehouse_id={{get_warehouse_id}}&container_id={{get_container_id}}&showClosed={{get_showClosed}}" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></a>
     <div class="row"> <div class="col col-sm-offset-1"><h1><i>{{getContainerById().description}}</i></h></div></div>
     <div class="row"> <div class="col"><h2>{{ui.internalDamage}}</div></div>
       <table><tr>
-      <td><BR><a href="/upload.php?container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=1"><img src=images/add_photo.png></a></td>
+      <td><BR><a href="/upload.php?container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=1&showClosed={{get_showClosed}}"><img src=images/add_photo.png></a></td>
       <td ng-repeat="d in get_damages" ng-if="d.container_id==get_container_id && d.type==1">
         <BR>
         <img src="/damages/{{ d.id }}_thumb.jpg" width=50%> 
@@ -69,7 +70,7 @@ check_login();
       </td></tr></table>
       <div class="row"> <div class="col"><h2>{{ui.externalDamage}}</div></div>
       <table><tr>
-      <td><BR><a href="/upload.php?container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=2"><img src=images/add_photo.png></a></td>
+      <td><BR><a href="/upload.php?container_id={{ get_container_id }}&warehouse_id={{ get_warehouse_id}}&damage_type=2&showClosed={{get_showClosed}}"><img src=images/add_photo.png></a></td>
       <td ng-repeat="d in get_damages" ng-if="d.container_id==get_container_id && d.type==2">
         <BR>
         <img src="/damages/{{ d.id }}_thumb.jpg" width=50%><BR>
