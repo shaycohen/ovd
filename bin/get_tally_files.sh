@@ -1,4 +1,6 @@
 #!/bin/bash
+DAYS_KEEP=7
+
 echo "[$(date)] Starting $0"
 
 TIMESTAMP=$(date +%s)
@@ -11,12 +13,14 @@ do
   [[ -d $ADIR ]] || mkdir -p $ADIR
   mv $DDIR/* $ADIR/
   ./bftp.sh -u dbc -p dbc -s dbcftp -P /ovrs/$LOC/taly -f 'TALLY_*.TXT' -D -L $DDIR && { 
-    ./bftp.sh -u dbc -p dbc -s dbcftp -P /ovrs/$LOC/taly -f 'TALLY_*.TXT' -d 
+    #YURI# ./bftp.sh -u dbc -p dbc -s dbcftp -P /ovrs/$LOC/taly -f 'TALLY_*.TXT' -d
+    echo "# ./bftp.sh -u dbc -p dbc -s dbcftp -P /ovrs/$LOC/taly -f 'TALLY_*.TXT' -d"
   } || { 
     echo "ERROR DOWNLOADING FILES"
   }
 done
 
-curl -s localhost/import.php
+curl -s localhost/import.php?debug_level=3
 
-
+rsync -az --delete /vagrant/html/import /DMG/import/
+find . -maxdepth 1 -type d -mtime +$DAYS_KEEP -name [0-9][0-9][0-9]\* -exec rm -r {} \;
