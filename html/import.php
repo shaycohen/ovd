@@ -42,7 +42,7 @@ foreach (glob("import/*/TALLY_LIST.TXT") as $file) {
   }
   fclose($fileh);
 }
-echoDebug('import::all_list_records', $tally, 4);
+echoDebug('import::all_list_records', $tally, 2);
 
 foreach ($tally as $warehouse => $containers) {
   $warehouse_id = db_query("SELECT * FROM warehouse where description like ?", array($warehouse))['fetch'];
@@ -61,6 +61,7 @@ foreach ($tally as $warehouse => $containers) {
       $container_id = db_query("SELECT * FROM container where description like :container AND warehouse_id=:warehouse_id", array(':container'=>$container, ':warehouse_id'=>$warehouse_id))['fetch'];
     }
     $container_id = $container_id['id'];
+    $update_res = db_query("UPDATE container set active=1 WHERE id=:container_id", array(':container_id' => $container_id))['fetch'];
     foreach ($serials as $serial) {
       $serial_id = db_query("SELECT * FROM serial where number like :serial and container_id=:container_id", array(':serial' => $serial['number'], ':container_id' => $container_id))['fetch'];
       if ($serial_id == false) { 
@@ -77,6 +78,7 @@ foreach ($tally as $warehouse => $containers) {
 }
 
 $active_containers_count = count($active_containers);
+echoDebug('import::active_containers_count', $active_containers_count, 2);
 if ($active_containers_count > 0) { 
 	$active_containers_qm = sprintf("?%s", str_repeat(",?", ($active_containers_count ? $active_containers_count-1 : 0)));
 	$not_active_containers_query = sprintf("UPDATE container SET active=0 WHERE description NOT IN (%s) and active=1", $active_containers_qm);
@@ -88,7 +90,6 @@ if ($active_containers_count > 0) {
 
 
 #OC,1,I170532,DFSU1445930,ZZ0006             ,I170532179487A06001
-
 $exch = array();
 foreach (glob("import/*/TALLY_EXCH*.TXT") as $file) {
   $fileh = fopen($file, "r") or die("Unable to open file!");
