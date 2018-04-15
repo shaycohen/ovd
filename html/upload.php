@@ -38,7 +38,7 @@ check_login();
 
     <div class="input-group" ng-if="get_serial_id">
       <span class="input-group-addon" id="basic-addon1">
-        <input type="file" name="fileToUpload" id="fileToUpload" class="inputfile" onchange="document.getElementById('upload_form').submit()" ng-click="uploadClicked=true">
+        <input type="file" name="fileToUpload" id="fileToUpload" class="inputfile" onchange="document.getElementById('upload_form').submit()" ng-click="uploadClicked=true" accept="image/*" capture="camera">
           <img src="images/loading.gif" height=60px ng-if="!getContainerBySerialId() || uploadClicked">
         <label for="fileToUpload">
           <button class="btn btn-lg btn-info btn-block" ng-if="getContainerBySerialId() && !uploadClicked" type="submit" name="image_submit">

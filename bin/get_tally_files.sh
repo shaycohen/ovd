@@ -22,5 +22,5 @@ done
 
 curl -s localhost/import.php?debug_level=3
 
+find /vagrant/html/import/archive -maxdepth 1 -type d -mtime +$DAYS_KEEP -name [0-9][0-9][0-9]\* -exec rm -r {} \;
 rsync -az --delete /vagrant/html/import /DMG/import/
-find . -maxdepth 1 -type d -mtime +$DAYS_KEEP -name [0-9][0-9][0-9]\* -exec rm -r {} \;

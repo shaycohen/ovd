@@ -59,7 +59,7 @@ check_login();
           <span class="label {{ damages['container'][selectedContainer.id]['types'][1] }}"><span class="glyphicon glyphicon-log-in"></span></span>
           <span class="label {{ damages['container'][selectedContainer.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
         </td><td>
-          <small><a href="/damage.php?container_id={{ selectedContainer.id }}&warehouse_id={{selectedWarehouse}}&showClosed={{showClosed}}">{{ selectedContainer.description }}</a></small>
+          <!small><a href="/damage.php?container_id={{ selectedContainer.id }}&warehouse_id={{selectedWarehouse}}&showClosed={{showClosed}}">{{ selectedContainer.description }}</a><!/small>
         </td></tr></table>
       </div>
     </div> </div>
@@ -71,7 +71,7 @@ check_login();
             <span class="label {{ damages['serial'][m.id]['types'][2] }}"><span class="glyphicon glyphicon-log-out"></span></span>
             <span class="label {{ damages['serial'][m.id]['types'][3] }}"><span class="glyphicon glyphicon-barcode"></span></span>
           </td><td>
-            <span ng-if="!m.serial_id"><small><a href="/damage.php?serial_id={{ m.id }}&container_id={{selectedContainer.id}}&warehouse_id={{selectedWarehouse}}&showClosed={{showClosed}}">{{ m.number}}</a></small></span>
+            <span ng-if="!m.serial_id"><!small><a href="/damage.php?serial_id={{ m.id }}&container_id={{selectedContainer.id}}&warehouse_id={{selectedWarehouse}}&showClosed={{showClosed}}">{{ m.number}}</a><!/small></span>
             <span ng-if="m.serial_id"><small><a href="/damage.php?serial_id={{ m.serial_id }}&container_id={{selectedContainer.id}}&warehouse_id={{selectedWarehouse}}&showClosed={{showClosed}}">{{ m.number }} -> {{ getSerialById(m.serial_id).number }}</a></small></span>
           </td></tr><tr><td colspan=2>
             <h4><span ng-click="setSelected()"> {{ m.description }}</span></h4>
